@@ -1,22 +1,28 @@
 <template>
   <div class="flex justify-between w-full h-20 px-24 items-center">
-    <nuxt-link
+    <div
       v-for="element in navbarElements"
       :key="element.id"
-      :to="element.link"
       class="
-        uppercase
-        font-thin
+        hover:bg-gray-100
         w-full
         h-full
-        hover:bg-gray-100
-        text-center
         flex
         items-center
         justify-center
+        flex-col
       "
-      >{{ element.name }}</nuxt-link
     >
+      <nuxt-link
+        :to="element.link"
+        class="uppercase font-thin text-center px-2"
+        >{{ element.name }}</nuxt-link
+      >
+      <div
+        v-if="$route.path.includes(element.link)"
+        class="h-px w-16 text-center bg-gray-600 opacity-60"
+      ></div>
+    </div>
   </div>
 </template>
 <script lang="ts">
