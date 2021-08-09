@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-around w-full h-20 items-center">
+  <div class="flex justify-between w-full h-20 px-24 items-center">
     <nuxt-link
       v-for="element in navbarElements"
       :key="element.id"
       :to="element.link"
-      class="uppercase font-thin hover:text-gray-500"
+      class="uppercase font-thin hover:font-light"
       >{{ element.name }}</nuxt-link
     >
   </div>

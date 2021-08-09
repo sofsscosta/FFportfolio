@@ -1,16 +1,18 @@
-import * as firebase from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/database'
 
+// const { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } = process.env
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDpPTCfFjyV9QKGArHpq67iS6NO-uYbQbM",
-  authDomain: "ffportfolio-99d42.firebaseapp.com",
-  projectId: "ffportfolio-99d42",
-  storageBucket: "ffportfolio-99d42.appspot.com",
-  messagingSenderId: "278623507510",
-  appId: "1:278623507510:web:bc841fc31a3631bede7497"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID, 
+  storageBucket: process.env.STORAGE_BUCKET, 
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID
 }
 // Initialize Firebase
 
