@@ -54,5 +54,6 @@ export default {
           fs: 'empty'
       }
   }
-  }
+  },
+  storage: true
 }

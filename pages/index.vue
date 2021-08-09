@@ -16,12 +16,14 @@ export default Vue.extend({
     };
   },
   async fetch() {
-    const storage = firebase.storage().ref();
-    const allImages = await storage.child("/images").listAll();
-    console.log(allImages);
-
-    const image = await allImages.items[0].getDownloadURL();
-    this.bannerImage = image;
+    try {
+      const storage = firebase.storage().ref();
+      const allImages = await storage.child("/images").listAll();
+      const image = await allImages.items[0].getDownloadURL();
+      this.bannerImage = image;
+    } catch (error) {
+      console.log(error);
+    }
   },
 });
 </script>

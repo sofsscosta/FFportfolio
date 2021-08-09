@@ -4,7 +4,17 @@
       v-for="element in navbarElements"
       :key="element.id"
       :to="element.link"
-      class="uppercase font-thin hover:font-light"
+      class="
+        uppercase
+        font-thin
+        w-full
+        h-full
+        hover:bg-gray-100
+        text-center
+        flex
+        items-center
+        justify-center
+      "
       >{{ element.name }}</nuxt-link
     >
   </div>
