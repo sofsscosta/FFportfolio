@@ -45,33 +45,33 @@ export default Vue.extend({
       {
         link: "/fashion",
         name: "Fashion",
-        id: 0,
+        id: 1,
       },
       {
         link: "/events",
         name: "Events",
-        id: 0,
+        id: 2,
       },
       {
         link: "/personal",
         name: "Personal",
-        id: 0,
+        id: 3,
       },
       {
         link: "/product",
         name: "Product",
-        id: 0,
+        id: 4,
       },
       {
         link: "/video",
         name: "Video",
-        id: 0,
+        id: 5,
       },
       // Not sure yet
       {
         link: "/reviews",
         name: "Reviews",
-        id: 0,
+        id: 6,
       },
     ];
     return {
