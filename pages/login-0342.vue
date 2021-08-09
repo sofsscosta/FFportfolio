@@ -21,12 +21,14 @@
     >
       👀
     </button>
-    <div v-if="error" class="text-red">{{ error.message }}</div>
+    <div v-if="error" class="mt-5 text-red-400">{{ error.message }}</div>
   </form>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default Vue.extend({
   layout: "admin",
@@ -34,12 +36,20 @@ export default Vue.extend({
     return {
       email: "",
       password: "",
-      error: "hey",
+      error: "",
     };
   },
   methods: {
-    submitLogin: () => {
-      console.log("submited");
+    async submitLogin() {
+      try {
+        const data = await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password);
+        console.log(data);
+        this.$router.push("/");
+      } catch (error) {
+        this.error = error;
+      }
     },
   },
 });
