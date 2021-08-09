@@ -45,7 +45,6 @@ export default Vue.extend({
         const data = await firebase
           .auth()
           .signInWithEmailAndPassword(this.email, this.password);
-        console.log(data);
         this.$router.push("/");
       } catch (error) {
         this.error = error;
