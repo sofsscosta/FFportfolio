@@ -1,6 +1,9 @@
 require('dotenv').config()
 
 export default {
+  dir: {
+    store: 'store'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'ffportfolio',
