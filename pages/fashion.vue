@@ -17,9 +17,9 @@ export default Vue.extend({
   },
   async fetch() {
     try {
-      const storage = firebase.storage().ref();
-      const allImages = await storage.child("/images").listAll();
-      const image = await allImages.items[0].getDownloadURL();
+      const storage = firebase.firestore()
+      const fashion = await storage.collection('banners').doc('fashion').get()
+      const image = fashion.data()?.url
       this.bannerImage = image;
     } catch (error) {
       console.error(error);

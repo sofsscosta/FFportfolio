@@ -1,5 +1,5 @@
 <template>
-    <section class="w-full h-screen">
+    <section class="w-full h-screen absolute">
         <ul class="bg-gray-400 w-32 h-full flex flex-col">
             <nuxt-link v-for="(separator, index) in separators" :key="index" class="text-white text-center h-14 hover:bg-gray-350 rounded justify-center items-center" :to="separator.link">
                 <p class="h-full items-center flex justify-center">{{ separator.name }}</p>

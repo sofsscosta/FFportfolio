@@ -53,25 +53,14 @@ export default Vue.extend({
         id: 2,
       },
       {
-        link: "/personal",
-        name: "Personal",
-        id: 3,
-      },
-      {
         link: "/product",
         name: "Product",
-        id: 4,
+        id: 3,
       },
       {
         link: "/video",
         name: "Video",
-        id: 5,
-      },
-      // Not sure yet
-      {
-        link: "/reviews",
-        name: "Reviews",
-        id: 6,
+        id: 4,
       },
     ];
     return {
