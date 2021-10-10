@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <Banner :image-source="bannerImage"/> -->
+    <Banner :image-source="bannerImage"/>
     <p>{{ email }}</p>
     <p>Tel: {{ phone }}</p>
     <a :href="`https://instagram.com/${instagram}`" target="_blank">
@@ -25,7 +25,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      // bannerImage: "",
+      bannerImage: "",
       email: "",
       phone: "",
       city: "",
@@ -35,13 +35,13 @@ export default Vue.extend({
   },
   async fetch({store}) {
     try {
-      // !store.getters['getBanner']('about') && await store.dispatch('getBanner', 'about')
+      !store.getters['getBanner']('home').bannerUrl && await store.dispatch('getBanner', 'home')
     } catch (error) {
       console.error(error);
     }
   },
   async created() {
-      // this.bannerImage = this.$store.getters['getBanner']('about').bannerUrl
+      this.bannerImage = this.$store.getters['getBanner']('home').bannerUrl
       const db = firebase.firestore();
       const snapshot = await db
         .collection("about")
