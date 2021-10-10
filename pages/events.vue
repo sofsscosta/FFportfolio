@@ -21,7 +21,7 @@ export default Vue.extend({
   },
   async fetch({store}) {
     try {
-      !store.getters['getBanner']('events') && await store.dispatch('getBanner', 'events')
+      !store.getters['getBanner']('events').bannerUrl && await store.dispatch('getBanner', 'events')
     } catch (error) {
       console.error(error);
     }

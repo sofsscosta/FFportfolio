@@ -31,7 +31,7 @@ export default Vue.extend({
   },
   async fetch({store}) {
     try {
-      !store.getters['getBanner']('video') && await store.dispatch('getBanner', 'video')
+      !store.getters['getBanner']('video').bannerUrl && await store.dispatch('getBanner', 'video')
     } catch (error) {
       console.error(error);
     }
