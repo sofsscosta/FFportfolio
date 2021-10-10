@@ -1,11 +1,12 @@
 <template>
-    <section class="w-full">
-        <ul class="bg-black w-32">
-            <nuxt-link v-for="(separator, index) in separators" :key="index" class="text-white" :to="separator.link">
-                {{ separator.name }}
+    <section class="w-full h-screen">
+        <ul class="bg-gray-400 w-32 h-full flex flex-col">
+            <nuxt-link v-for="(separator, index) in separators" :key="index" class="text-white text-center h-14 hover:bg-gray-350 rounded justify-center items-center" :to="separator.link">
+                <p class="h-full items-center flex justify-center">{{ separator.name }}</p>
+                <div class="h-px bg-gray-350 mx-2"/>
             </nuxt-link>
-            <nuxt-link @click.native="handleLogout" class="text-white" to="/admin">
-               <p>Logout</p> 
+            <nuxt-link @click.native="$store.dispatch('logout')" class="text-white text-center h-14 hover:bg-gray-350 rounded" to="/admin">
+                <p class="h-full items-center flex justify-center">Logout</p>
             </nuxt-link>
         </ul>
     </section>
@@ -46,9 +47,9 @@ export default Vue.extend({
         }
     },
     methods: {
-        async handleLogout() {
-            this.$store.dispatch('logout')
-        }
+        // async handleLogout() {
+        //     this.$store.dispatch('logout')
+        // }
     }
 })
 </script>

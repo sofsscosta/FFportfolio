@@ -14,6 +14,8 @@ export const state = () => ({})
 
 export const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({}) {
+        const isUserLogged = await firebase.auth().currentUser
+        if(isUserLogged) this.commit('SET_LOGGED_STATE', true)
     },
     async logIn({}, {email, password}: {email: string, password: string}) {
         try {
