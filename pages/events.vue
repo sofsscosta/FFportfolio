@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner :image-source="bannerImage" section="about"/>
+    <Banner :image-source="bannerImage" section="events"/>
   </div>
 </template>
 
