@@ -27,11 +27,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import firebase from "firebase/app";
-import "firebase/auth";
 
 export default Vue.extend({
-  layout: "admin",
+  layout: "login",
   data() {
     return {
       email: "",
@@ -41,13 +39,11 @@ export default Vue.extend({
   },
   methods: {
     async submitLogin() {
-      try {
-        const data = await firebase
-          .auth()
-          .signInWithEmailAndPassword(this.email, this.password);
-        this.$router.push("/");
+      try { 
+        await this.$store.dispatch('logIn', { email: this.email, password: this.password })
+        return this.$router.push("/admin");
       } catch (error) {
-        this.error = error;
+        this.error = error
       }
     },
   },
@@ -56,6 +52,7 @@ export default Vue.extend({
 
 <style scoped>
 .field {
-  @apply w-72 h-10 rounded border border-gray-400 px-3 mb-5;
+  @apply w-72 h-10 rounded border px-3 mb-5;
+  border: gray
 }
 </style>
