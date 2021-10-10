@@ -1,14 +1,15 @@
 <template>
-    <body v-if="sections.length" >
-        <h4 class="text-center">
+    <body class="font-light text-gray-500">
+        <h2 class="text-3xl my-14">
             Here is where you update every banner for every page!
-        </h4>
-        <section v-for="{name, image} in sections" :key="name">
-            <label for="banner">Upload banner</label>
-            <input type="file" name="banner" id="banner" @change="onFileSelected">
-            <button @click="uploadBanner">Upload</button>
-            <img width="320" :src="banner || image"/>
+        </h2>
+        <section v-for="{name, currentImage, error} in sections" :key="name" class="mb-20">
+            <label for="banner" class="flex flex-row mb-2">Banner for <p class="font-bold ml-1 text-black">{{ name.toUpperCase() }}</p></label>
+            <img width="480" :src="currentImage" class="mt-2" :key="currentImage"/>
+            <input type="file" name="banner" id="banner" @change="onFileSelected(name)" :value="currentImage.name" class="mt-2">
+            <button @click="uploadBanner(name)">Upload</button>
             <p v-if="error" class="text-red-300">{{error}}</p>
+            <div></div>
         </section>
     </body>
 </template>
@@ -20,44 +21,54 @@ import "firebase/storage";
 
 const db = firebase.firestore()
 
+type section = {
+    currentImage: string; 
+    name: string;
+    selectedImage: null,
+    uploadValue: number,
+    error: string,
+}
+
 export default Vue.extend({
     layout: 'admin',
     data() {
-        const sections: {image: string; name: string}[] = []
+        const sections: section[] = []
         return {
-            selectedImage: null,
-            banner: "",
-            uploadValue: 0,
-            error: '',
             sections
         }
     },
     async fetch() {
         const sections = await db.collection('banners').get()
         sections.forEach(doc => {
-            const image = doc.data()?.url
-            if (doc.id && image) this.sections.push({ name: doc.id, image })
+            const currentImage = doc.data()?.url
+            if (doc.id && currentImage) this.sections.push({ name: doc.id, currentImage, selectedImage: null, uploadValue: 0, error: '' })
         })
     },
     methods: {
-        onFileSelected(event: any) {
-            this.selectedImage = event.target.files[0]
+        currentSection: function (name: string): section {
+            return this.sections.find((el: any) => el.id === name) || this.sections[0]
         },
-        uploadBanner() {
+        onFileSelected(section: string){
+            // @ts-ignore
+            this.currentSection(section).selectedImage = window.event.target.files[0]
+        },
+        uploadBanner(section: string) {
             try {
+                const currentSection = this.currentSection(section)
                 //@ts-ignore
-                let reference = firebase.storage().ref(`/images/${this.selectedImage.name}`);         // 2
+                let reference = firebase.storage().ref(`/images/${currentSection.selectedImage.name}`);
                 //@ts-ignore
-                let task = reference.put(this.selectedImage);               // 3
-                task.on('state_changed', async snapshot => {
-                }, error => this.error = error.toString(), 
-                async () => {
-                    const url = await task.snapshot.ref.getDownloadURL()
-                    const collection = await db.collection('banners').get()
-                    collection.forEach(doc => {
-                        doc.id === 'events' && doc.ref.update({url: url})
-                        })
-                    this.banner = url
+                let task = reference.put(currentSection.selectedImage);
+                task.on('state_changed', 
+                    () => {}, 
+                    error => currentSection.error = error.toString(), 
+                    async () => {
+                        const url = await task.snapshot.ref.getDownloadURL()
+                        const collection = await db.collection('banners').get()
+                        collection.forEach(doc => {
+                            doc.id === section && doc.ref.update({url: url})
+                            })
+                        currentSection.currentImage = url
                 })
             } catch(error) {
                 console.log(error)

@@ -1,7 +1,7 @@
 <template>
-    <section class="w-full h-screen absolute">
+    <section class="w-full h-screen fixed">
         <ul class="bg-gray-400 w-32 h-full flex flex-col">
-            <nuxt-link v-for="(separator, index) in separators" :key="index" class="text-white text-center h-14 hover:bg-gray-350 rounded justify-center items-center" :to="separator.link">
+            <nuxt-link v-for="(separator, index) in separators" :key="index" class="text-white text-center h-14 hover:bg-gray-350 rounded justify-center items-center" :class="$route.path == separator.link ? 'bg-gray-350' : ''" :to="separator.link">
                 <p class="h-full items-center flex justify-center">{{ separator.name }}</p>
                 <div class="h-px bg-gray-350 mx-2"/>
             </nuxt-link>

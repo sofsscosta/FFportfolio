@@ -1,10 +1,10 @@
 <template>
   <div class="w-screen h-screen bg-gray">
     <section class="flex flex-row">
-      <Sidebar/>
-      <div class="ml-32 w-full">
-        <nuxt class="m-5"/>
+      <div class="ml-32 w-full z-20">
+        <nuxt class="m-8"/>
       </div>
+      <Sidebar/>
     </section>
   </div>
 </template>
