@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner :image-source="bannerImage"/>
+    <Banner :image-source="bannerImage" section="video"/>
     <iframe
       width="560"
       height="315"
@@ -16,9 +16,6 @@
 <script lang="ts">
 import Vue from "vue";
 import Banner from '~/components/Images/Banner.vue'
-import firebase from "firebase/app";
-import "firebase/storage";
-import { Banner as BannerType } from "~/types";
 
 export default Vue.extend({
   data() {

@@ -1,16 +1,15 @@
 <template>
   <div>
-    <img :src="bannerImage" class="h-screen w-full object-cover"/>
+    <Banner :image-source="bannerImage" section="ferran flack"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Banner from '~/components/Images/Banner.vue'
-import firebase from "firebase/app";
-import "firebase/storage";
 
 export default Vue.extend({
+  components: { Banner },
   data() {
     return {
       bannerImage: "",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner :image-source="bannerImage"/>
+    <Banner :image-source="bannerImage" section="about"/>
     <p>{{ email }}</p>
     <p>Tel: {{ phone }}</p>
     <a :href="`https://instagram.com/${instagram}`" target="_blank">

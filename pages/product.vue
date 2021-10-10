@@ -1,14 +1,12 @@
 <template>
   <div>
-    <Banner :image-source="bannerImage"/>
+    <Banner :image-source="bannerImage" section="product"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Banner from '~/components/Images/Banner.vue'
-import firebase from "firebase/app";
-import "firebase/storage";
 
 export default Vue.extend({
   components: {
