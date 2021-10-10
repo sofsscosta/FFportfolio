@@ -47,9 +47,7 @@ export default Vue.extend({
     },
     methods: {
         async handleLogout() {
-            await firebase.auth().signOut
-            localStorage.removeItem('authToken')
-            this.$router.push('/admin/login')
+            this.$store.dispatch('logout')
         }
     }
 })

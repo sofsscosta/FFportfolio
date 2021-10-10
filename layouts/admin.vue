@@ -15,5 +15,6 @@ export default Vue.extend({
   components: {
     Sidebar
   },
+  middleware: 'auth'
 });
 </script>

@@ -28,6 +28,9 @@ export const actions: ActionTree<RootState, RootState> = {
         }
     },
     async logout() {
+        await firebase.auth().signOut
+        localStorage.removeItem('authToken')
+        this.$router.push('/admin/login')
         this.commit('SET_LOGGED_STATE', false)
     },
 }
