@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full h-20 px-24 items-center">
+  <div class="flex justify-between w-full h-20 px-24 items-center" :style="{height: headerHeight}">
     <div
       v-for="element in navbarElements"
       :key="element.id"
@@ -27,6 +27,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
+import { headerHeight } from '~/utils'
 
 interface NavbarElement {
   link: string;
@@ -53,29 +54,19 @@ export default Vue.extend({
         id: 2,
       },
       {
-        link: "/personal",
-        name: "Personal",
-        id: 3,
-      },
-      {
         link: "/product",
         name: "Product",
-        id: 4,
+        id: 3,
       },
       {
         link: "/video",
         name: "Video",
-        id: 5,
-      },
-      // Not sure yet
-      {
-        link: "/reviews",
-        name: "Reviews",
-        id: 6,
+        id: 4,
       },
     ];
     return {
       navbarElements,
+      headerHeight
     };
   },
 });

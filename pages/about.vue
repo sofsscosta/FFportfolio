@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="bannerImage" />
+    <Banner :image-source="bannerImage" section="about"/>
     <p>{{ email }}</p>
     <p>Tel: {{ phone }}</p>
     <a :href="`https://instagram.com/${instagram}`" target="_blank">
@@ -13,6 +13,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import InstagramIcon from "~/assets/InstagramIcon.vue";
+import Banner from '~/components/Images/Banner.vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
@@ -20,6 +21,7 @@ import "firebase/storage";
 export default Vue.extend({
   components: {
     InstagramIcon,
+    Banner
   },
   data() {
     return {
@@ -31,13 +33,15 @@ export default Vue.extend({
       year: 0,
     };
   },
-  async fetch() {
+  async fetch({store}) {
     try {
-      const storage = firebase.storage().ref();
-      const allImages = await storage.child("/images").listAll();
-      const image = await allImages.items[0].getDownloadURL();
-      this.bannerImage = image;
-
+      !store.getters['getBanner']('home').bannerUrl && await store.dispatch('getBanner', 'home')
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async created() {
+      this.bannerImage = this.$store.getters['getBanner']('home').bannerUrl
       const db = firebase.firestore();
       const snapshot = await db
         .collection("about")
@@ -51,9 +55,6 @@ export default Vue.extend({
         this.instagram = data.contacts.instagram;
       }
       this.year = new Date().getFullYear();
-    } catch (error) {
-      console.error(error);
-    }
-  },
+  }
 });
 </script>
