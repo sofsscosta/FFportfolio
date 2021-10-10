@@ -9,9 +9,6 @@ module.exports = {
         }
       }
     },
-    // colors: {
-      // "gray-350": "rgba(156, 163, 175, 50)"
-    // }
   },
   variants: {
     extend: {
