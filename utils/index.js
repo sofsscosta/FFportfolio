@@ -4,3 +4,8 @@ export const asyncForEach = async (array, callback) => {
     await callback(array[i], i, array);
   }
 };
+
+export const headerHeight = '5rem'
+
+export const convertRemToPixels = (rem) => 
+  rem * parseFloat(getComputedStyle(document.documentElement).fontSize);

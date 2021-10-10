@@ -7,7 +7,6 @@
             <label for="banner" class="flex flex-row mb-2">Banner for <p class="font-bold ml-1 text-black">{{ name.toUpperCase() }}</p></label>
             <img width="480" :src="currentImage" class="mt-2" :key="currentImage"/>
             <input type="file" name="banner" id="banner" @change="onFileSelected(name)" :value="currentImage.name" class="mt-2">
-            <button @click="uploadBanner(name)">Upload</button>
             <p v-if="error" class="text-red-300">{{error}}</p>
             <div></div>
         </section>
@@ -40,17 +39,21 @@ export default Vue.extend({
     async fetch() {
         const sections = await db.collection('banners').get()
         sections.forEach(doc => {
+            console.log(doc.id)
+            console.log(doc.data())
             const currentImage = doc.data()?.url
-            if (doc.id && currentImage) this.sections.push({ name: doc.id, currentImage, selectedImage: null, uploadValue: 0, error: '' })
+            if (doc.id) this.sections.push({ name: doc.id, currentImage, selectedImage: null, uploadValue: 0, error: '' })
         })
     },
     methods: {
-        currentSection: function (name: string): section {
-            return this.sections.find((el: any) => el.id === name) || this.sections[0]
+        currentSection(name: string): section {
+            //@ts-ignore
+            return this.sections.find((el: any) => el.name == name)
         },
         onFileSelected(section: string){
             // @ts-ignore
             this.currentSection(section).selectedImage = window.event.target.files[0]
+            this.uploadBanner(section)
         },
         uploadBanner(section: string) {
             try {

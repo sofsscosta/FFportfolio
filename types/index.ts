@@ -1,3 +1,9 @@
 export interface RootState {
-    isLogged: false
+    isLogged: false,
+    banners: Banner[]
+}
+
+export interface Banner {
+    bannerUrl: string,
+    section: string
 }

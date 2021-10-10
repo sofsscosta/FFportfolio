@@ -1,11 +1,12 @@
 <template>
   <div>
-    <img :src="bannerImage" />
+    <img :src="bannerImage" class="h-screen w-full object-cover"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Banner from '~/components/Images/Banner.vue'
 import firebase from "firebase/app";
 import "firebase/storage";
 
@@ -15,15 +16,15 @@ export default Vue.extend({
       bannerImage: "",
     };
   },
-  async fetch() {
+  async fetch({store}) {
     try {
-      const storage = firebase.firestore()
-      const home = await storage.collection('banners').doc('home').get()
-      const image = home.data()?.url
-      this.bannerImage = image;
+      !store.getters['getBanner']('home') && await store.dispatch('getBanner', 'home')
     } catch (error) {
       console.error(error);
     }
   },
+  created() {
+      this.bannerImage = this.$store.getters['getBanner']('home').bannerUrl
+  }
 });
 </script>

@@ -7,6 +7,9 @@ module.exports = {
         gray: {
           350: '#acb3c0'
         }
+      },
+      height: {
+        120: "30rem"
       }
     },
   },

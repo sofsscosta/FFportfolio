@@ -1,29 +1,33 @@
 <template>
   <div>
-    <img :src="bannerImage" />
+    <Banner :image-source="bannerImage"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Banner from '~/components/Images/Banner.vue'
 import firebase from "firebase/app";
 import "firebase/storage";
 
 export default Vue.extend({
+  components: {
+    Banner
+  },
   data() {
     return {
       bannerImage: "",
     };
   },
-  async fetch() {
+  async fetch({store}) {
     try {
-      const storage = firebase.firestore()
-      const product = await storage.collection('banners').doc('product').get()
-      const image = product.data()?.url
-      this.bannerImage = image;
+      !store.getters['getBanner']('product') && await store.dispatch('getBanner', 'product')
     } catch (error) {
       console.error(error);
     }
   },
+  created() {
+      this.bannerImage = this.$store.getters['getBanner']('product').bannerUrl
+  }
 });
 </script>

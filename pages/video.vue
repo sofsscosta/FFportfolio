@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="bannerImage" />
+    <Banner :image-source="bannerImage"/>
     <iframe
       width="560"
       height="315"
@@ -15,8 +15,10 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Banner from '~/components/Images/Banner.vue'
 import firebase from "firebase/app";
 import "firebase/storage";
+import { Banner as BannerType } from "~/types";
 
 export default Vue.extend({
   data() {
@@ -24,15 +26,18 @@ export default Vue.extend({
       bannerImage: "",
     };
   },
-  async fetch() {
+  components: {
+    Banner
+  },
+  async fetch({store}) {
     try {
-      const storage = firebase.storage().ref();
-      const allImages = await storage.child("/images").listAll();
-      const image = await allImages.items[0].getDownloadURL();
-      this.bannerImage = image;
+      !store.getters['getBanner']('video') && await store.dispatch('getBanner', 'video')
     } catch (error) {
       console.error(error);
     }
   },
+  created() {
+      this.bannerImage = this.$store.getters['getBanner']('video').bannerUrl
+  }
 });
 </script>
