@@ -67,7 +67,7 @@ export const actions: ActionTree<RootState, RootState> = {
         try {
             const snapshots = await firebase.firestore().collection(section).get()
             const items: any[] = []
-            snapshots.forEach(doc => items.push(doc.data()))
+            snapshots.forEach(doc => items.push({...doc.data(), id: doc.id}))
             commit('SET_PROJECTS', {section, items})
         } catch(error) {
             console.log(error)

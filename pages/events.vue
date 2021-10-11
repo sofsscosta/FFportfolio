@@ -1,7 +1,9 @@
 <template>
   <div>
     <Banner :image-source="bannerImage" section="events"/>
-    <ProjectItem v-for="project in projects" :project="project" :key="project.id"/>
+    <div class="m-28">
+      <ProjectItem v-for="project in projects" :project="project" :key="project.id"/>
+    </div>
   </div>
 </template>
 
