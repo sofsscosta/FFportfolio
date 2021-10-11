@@ -1,23 +1,28 @@
 <template>
-  <div class="h-96 mb-28">
-    <header class="flex flex-wrap flex-row h-16 justify-between font-thin">
-      <div>
-        <h2>
-          {{ title }}
-        </h2>
-        <p>
-          {{ subtitle }}
-        </p>
-      </div>
-      <div class="flex flex-col items-end">
-        <p>
-          {{ date }}
-        </p>
-        <div class="flex flex-row">
-          <Tag v-for="tag in tags" :key="tag" :tag="tag" class="ml-2"/>
+  <div class="h-96 mb-28 overflow-x-hidden" >
+    <nuxt-link :to="slug" class="w-full h-full">
+      <header class="flex flex-wrap flex-row justify-between font-thin">
+        <div>
+          <h2 class="text-3xl mb-3">
+            {{ title }}
+          </h2>
+          <p>
+            {{ subtitle }}
+          </p>
         </div>
-      </div>
-    </header>
+        <div class="flex flex-col items-end">
+          <p class="mb-3">
+            {{ date }}
+          </p>
+          <div class="flex flex-row">
+            <Tag v-for="tag in tags" :key="tag" :tag="tag" class="ml-2"/>
+          </div>
+        </div>
+      </header>
+      <body class="flex flex-row mt-10 justify-between">
+        <img v-for="(image, index) in images_preview" :src="image" :key="index" class="w-1/3 mr-2 object-cover">
+      </body>
+    </nuxt-link>
   </div>
 </template>
 <script lang="ts">

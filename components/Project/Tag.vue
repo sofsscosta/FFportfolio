@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-yellow-100 text-center rounded-full p-1 px-2 text-gray-500">
+    <div class="bg-gray-200 text-center rounded-full p-1 px-2 text-gray-500">
         {{ tag }}
     </div>
 </template>
@@ -14,8 +14,5 @@ export default Vue.extend({
             default: ''
         } 
     },
-    created() {
-        console.log(this.tag)
-    }
 });
 </script>
