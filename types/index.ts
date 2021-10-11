@@ -14,7 +14,7 @@ export interface Banner {
 }
 
 export interface Project {
-    id?: string;
+    id: string;
     date: string;
     description?: string;
     images: string[];

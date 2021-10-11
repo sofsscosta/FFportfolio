@@ -19,9 +19,9 @@
           </div>
         </div>
       </header>
-      <body class="flex flex-row mt-10 justify-between">
+      <section class="flex flex-row mt-10 justify-between">
         <img v-for="(image, index) in images_preview" :src="image" :key="index" class="w-1/3 mr-2 object-cover">
-      </body>
+      </section>
     </nuxt-link>
   </div>
 </template>

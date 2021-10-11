@@ -36,7 +36,8 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@braid/vue-formulate/nuxt'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -61,5 +62,8 @@ export default {
   pageTransition: {
     name: 'page',
     mode: 'out-in',
+  },
+  formulate: {
+    configPath: '~/formulate.config.js'
   }
 }
