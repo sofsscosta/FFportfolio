@@ -5,14 +5,37 @@
             <FormulateInput type="text" label="Title" name="title" v-model="project.title" placeholder="Title" validation="required"/>
             <FormulateInput type="text" label="Subtitle" name="subtitle" v-model="project.subtitle" placeholder="Subtitle"/>
             <FormulateInput type="textarea" label="Description" name="description" v-model="project.description" placeholder="Description"/>
-            <FormulateInput type="text" label="Date" name="date" v-model="project.date" helper="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021, 08/2021" placeholder="Date"/>
+            <FormulateInput type="text" label="Date" name="date" v-model="project.date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
             <FormulateInput
                 type="image"
-                name="headshot"
-                label="Select an image to upload"
-                help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
+                name="images"
+                label="Preview images"
+                help="These will be the 3 images the user sees before entering the project's details."
+                validation="mime:image/jpeg,image/png,image/gif|required|max:3"
+                multiple
             />
+            <FormulateInput
+                type="image"
+                name="images"
+                label="Images"
+                help="These will be all the images inside the project's details."
+                validation="mime:image/jpeg,image/png,image/gif|required"
+                multiple
+            />
+             <FormulateInput
+                type="group"
+                name="tags"
+                v-model="project.tags"
+                :repeatable="true"
+                label="Insert tags"
+                add-label="+ Add tag"
+                validation="max:3"
+            >
+                <FormulateInput
+                    name="tag"
+                    label="Tag"
+                />
+            </FormulateInput>
         </FormulateForm>
         <!-- <input type="text" placeholder="Title"> -->
         <!-- <label for="banner" class="flex flex-row mb-2">Image<p class="font-bold ml-1 text-black">{{ name.toUpperCase() }}</p></label>
@@ -88,3 +111,10 @@ export default Vue.extend({
     }
 })
 </script>
+
+<style scoped>
+.formulate-file-image-preview-image {
+    width: auto;
+    height: 2.5rem;
+}
+</style>
