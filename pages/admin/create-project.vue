@@ -51,9 +51,9 @@
             </FormulateInput>
             <FormulateInput 
                 type="submit" 
-                :label="isLoading ? 'LOADING...' : isCreated ? 'PROJECT SUCCESSFULLY CREATED!' : 'CREATE PROJECT'" 
+                :label="isLoading ? 'LOADING...' : 'CREATE PROJECT'" 
                 class="mt-10" 
-                :disabled="isLoading || isCreated"
+                :disabled="isLoading"
             />
         </FormulateForm>
     </section>
@@ -79,10 +79,7 @@ export default Vue.extend({
                 tags: [],
             },
             section: '',
-            images: [],
-            images_preview: [],
-            isLoading: false,
-            isCreated: false
+            isLoading: false
         }
     },
     fetch() {
@@ -102,12 +99,12 @@ export default Vue.extend({
                     title: event.title,
                     tags: this.processTags(event.tags),
                 }
-                const newProject = await firebase.firestore().collection('events').add(preProcesedProject)
+                const newProject = await firebase.firestore().collection(this.section).add(preProcesedProject)
                 const images_preview = await this.uploadImages(event.images_preview)
                 const images = await this.uploadImages(event.images)
-                await firebase.firestore().collection('events').doc(newProject.id).update({...preProcesedProject, images_preview, images})
+                await firebase.firestore().collection(this.section).doc(newProject.id).update({...preProcesedProject, images_preview, images, id: newProject.id})
                 this.isLoading = false
-                this.isCreated = true
+                this.$router.push(`/admin/${this.section}/${newProject.id}`)
             } catch(error) {
                 this.isLoading = false
                 console.log(error)
@@ -121,7 +118,7 @@ export default Vue.extend({
                         const image = element.image?.files[0]?.file
                         if(!image) return
                         //@ts-ignore
-                        let reference = firebase.storage().ref(`/images/events/${this.project.title}/${image.name}`);
+                        let reference = firebase.storage().ref(`/images/${this.section}/${this.project.title}/${image.name}`);
                         const task = reference.put(image);
                         task.on('state_changed', 
                             null,
@@ -139,10 +136,10 @@ export default Vue.extend({
             }
         },
         processTags(tags: {tag: string}[]) {
-            return tags.map(el => el.tag)
+            return tags.filter(tag => tag.tag).map(el => el.tag)
         },
         generateSlug(title:string) {
-            return `/events/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
+            return `/${this.section}/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
         }
     }
 })

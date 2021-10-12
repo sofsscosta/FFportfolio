@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner :image-source="bannerImage" section="events"/>
+    <Banner :image-source="bannerImage" section="product"/>
     <div class="m-28">
       <ProjectItem v-for="project in projects" :project="project" :key="project.id"/>
     </div>
@@ -27,15 +27,15 @@ export default Vue.extend({
   },
   async fetch({store}) {
     try {
-      !store.getters['getBanner']('events').bannerUrl && await store.dispatch('getBanner', 'events')
-      !store.state.events.length && await store.dispatch('getSectionItems', 'events')
+      !store.getters['getBanner']('product').bannerUrl && await store.dispatch('getBanner', 'product')
+      !store.state.product.projects.length && await store.dispatch('getSectionItems', 'product')
     } catch (error) {
       console.error(error);
     }
   },
   created() {
-    this.bannerImage = this.$store.getters['getBanner']('events').bannerUrl
-    this.projects = this.$store.state.events
+    this.bannerImage = this.$store.getters['getBanner']('product').bannerUrl
+    this.projects = this.$store.state.product.projects
   }
 });
 </script>

@@ -1,16 +1,22 @@
 export interface RootState {
     isLogged: false,
+    error: { user : string}
     banners: Banner[],
-    events: Project[],
-    video: Project[],
-    fashion: Project[],
-    product: Project[],
+    events: Section,
+    video: Section,
+    fashion: Section,
+    product: Section,
+}
+
+export interface Section {
+    projects: Project[];
+    selectedProject: Project
 }
 
 export interface Banner {
     id?: string;
-    bannerUrl: string,
-    section: string
+    bannerUrl: string;
+    section: string;
 }
 
 export interface Project {
