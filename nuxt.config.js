@@ -22,11 +22,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: ['~/assets/main.css', '~/assets/formulate.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['./plugins/firebase.js'],
+  plugins: ['./plugins/firebase.js', '~/plugins/vue-formulate'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -37,7 +36,8 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    // '@braid/vue-formulate/nuxt'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -58,5 +58,12 @@ export default {
       }
   }
   },
-  storage: true
+  storage: true,
+  pageTransition: {
+    name: 'page',
+    mode: 'out-in',
+  },
+  formulate: {
+    configPath: '~/formulate.config.js'
+  }
 }

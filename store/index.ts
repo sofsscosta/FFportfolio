@@ -2,17 +2,34 @@ import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
 // import { RootState } from '~/types'
 import firebase from "firebase/app";
 import "firebase/auth";
-import { Banner } from "~/types";
+import "firebase/firestore";
+import { Banner, Project, Sections } from "~/types";
 
 interface RootState {
     isLogged: false,
     error: {
         user: string | undefined
     },
-    banners: Banner[]
+    banners: Banner[],
+    events: Project[],
+    video: Project[],
+    fashion: Project[],
+    product: Project[],
 }
 
-export const state = () => ({})
+// const db = firebase.firestore()
+
+export const state = () => ({
+    isLogged: false,
+    error: {
+        user: ''
+    },
+    banners: [],
+    events: [],
+    video: [],
+    fashion: [],
+    product: [],
+})
 
 export const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit }) {
@@ -42,11 +59,19 @@ export const actions: ActionTree<RootState, RootState> = {
         commit('SET_LOGGED_STATE', false)
     },
     async getBanner({ commit }, collection: string) {
-        const storage = firebase.firestore()
-        const home = await storage.collection('banners').doc(collection).get()
+        const home = await firebase.firestore().collection('banners').doc(collection).get()
         const image = home.data()?.url
         commit('SET_BANNER', {section: collection, bannerUrl: image})
-
+    },
+    async getSectionItems ({ commit }, section: string) {
+        try {
+            const snapshots = await firebase.firestore().collection(section).get()
+            const items: any[] = []
+            snapshots.forEach(doc => items.push({...doc.data(), id: doc.id}))
+            commit('SET_PROJECTS', {section, items})
+        } catch(error) {
+            console.log(error)
+        }
     }
 }
 
@@ -64,6 +89,9 @@ export const mutations: MutationTree<RootState> = {
         const banner = state.banners.find(banner => banner.section == section)
         if (!banner) return
         banner.bannerUrl = bannerUrl
+    },
+    SET_PROJECTS(state, {section, items}: { section: Sections; items: Project[] }) {
+        state[section] = items
     }
 }
 

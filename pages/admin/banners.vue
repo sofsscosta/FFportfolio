@@ -1,16 +1,19 @@
 <template>
-    <body class="font-light text-gray-500">
-        <h2 class="text-3xl my-14">
-            Here is where you update every banner for every page!
+    <div class="font-light text-gray-500">
+        <h2 class="text-4xl my-14 font-thin">
+            Hello Ferran! 📸
+        </h2>
+        <h2 class="text-3xl my-14 font-thin">
+            Here is where you update the banners from each page:
         </h2>
         <section v-for="{name, currentImage, error} in sections" :key="name" class="mb-20">
             <label for="banner" class="flex flex-row mb-2">Banner for <p class="font-bold ml-1 text-black">{{ name.toUpperCase() }}</p></label>
             <img width="480" :src="currentImage" class="mt-2" :key="currentImage"/>
-            <input type="file" name="banner" id="banner" @change="onFileSelected(name)" :value="currentImage.name" class="mt-2">
+            <FormulateInput type="image" name="banner" @change="onFileSelected(name)" class="mt-2 max-w-md"/>
             <p v-if="error" class="text-red-300">{{error}}</p>
             <div></div>
         </section>
-    </body>
+    </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -39,8 +42,6 @@ export default Vue.extend({
     async fetch() {
         const sections = await db.collection('banners').get()
         sections.forEach(doc => {
-            console.log(doc.id)
-            console.log(doc.data())
             const currentImage = doc.data()?.url
             if (doc.id) this.sections.push({ name: doc.id, currentImage, selectedImage: null, uploadValue: 0, error: '' })
         })
@@ -70,7 +71,7 @@ export default Vue.extend({
                         const collection = await db.collection('banners').get()
                         collection.forEach(doc => {
                             doc.id === section && doc.ref.update({url: url})
-                            })
+                        })
                         currentSection.currentImage = url
                 })
             } catch(error) {
