@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full h-20 px-24 items-center" :style="{height: headerHeight}">
+  <div class="flex justify-between w-full h-20 px-2 md:px-24 items-center" :style="{height: headerHeight}">
     <div
       v-for="element in navbarElements"
       :key="element.id"

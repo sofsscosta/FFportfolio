@@ -1,6 +1,6 @@
 <template>
     <masonry :cols="2" :gutter="10">
-        <img v-for="(item, index) in items" :key="index" :src="item" alt="" class="mb-2"/>
+        <img v-for="(image, index) in items" :key="index" :src="image" alt="" class="mb-2" @click="$emit('showModal', index)"/>
     </masonry>
 </template>
 <script lang="ts">
