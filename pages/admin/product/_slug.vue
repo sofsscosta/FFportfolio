@@ -1,4 +1,4 @@
 <script>
-import UpdateProject from '~/pages/admin/update-project.vue'
+import UpdateProject from '~/pages/admin/dynamic/update-project.vue'
 export default UpdateProject
 </script>
