@@ -6,7 +6,7 @@
         <h2 class="font-light mb-10">
             Here you can create, edit or delete projects for the events section. Click on each item to see it's details.
         </h2>
-        <ul class="mb-20 w-full px-10">
+        <ul class="mb-20 w-full px-10" :key="projects.length">
             <div class="flex flex-row justify-between text-lg">
                 <p>Title</p>
                 <p>Date</p>
@@ -21,7 +21,7 @@
                     </nuxt-link>
                     <p>{{project.date}}</p>
                     <nuxt-link :to="`/admin${project.slug}`">
-                        <img :src="project.images_preview[0]" width="200" alt="" class="my-2"/>
+                        <img v-if="project.images_preview && project.images_preview.length" :src="project.images_preview[0]" width="200" alt="" class="my-2"/>
                     </nuxt-link>
                     <div>
                         <button @click.self="handleDelete(project.title, project.id)">Delete</button>
@@ -48,8 +48,8 @@ export default Vue.extend({
             projects
         }
     },
-    async fetch() {
-        !this.$store.state.events.length && await this.$store.dispatch('getSectionItems', 'events')
+    fetch() {
+        this.$store.dispatch('getSectionItems', 'events')
     },
     created() {
         this.projects = this.$store.state.events
@@ -59,8 +59,9 @@ export default Vue.extend({
             try {
                 const isConfirmed = window.confirm(`Are you sure you want to delete ${title}?`)
                 if(!isConfirmed) return;
-                const projectToDelete = await firebase.firestore().collection('events').doc(id).get()
-                projectToDelete.exists && await projectToDelete.ref.delete()
+                await firebase.firestore().collection('events').doc(id).delete()
+                await this.$store.dispatch('getSectionItems', 'events')
+                this.projects = this.$store.state.events
             } catch(error) {
                 console.log(error)
             }

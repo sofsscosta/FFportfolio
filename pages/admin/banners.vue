@@ -71,7 +71,7 @@ export default Vue.extend({
                         const collection = await db.collection('banners').get()
                         collection.forEach(doc => {
                             doc.id === section && doc.ref.update({url: url})
-                            })
+                        })
                         currentSection.currentImage = url
                 })
             } catch(error) {

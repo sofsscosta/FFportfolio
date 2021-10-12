@@ -1,33 +1,46 @@
 <template>
-    <section class="font-light text-gray-500 mb-20">
-        <p class="text-5xl my-10 font-thin">New <span class="font-light">{{section.toUpperCase()}}</span> project</p>
-        <FormulateForm @submit="createProject" class="max-w-2xl">
-            <FormulateInput type="text" label="Title" name="title" v-model="project.title" placeholder="Title" validation="required"/>
-            <FormulateInput type="text" label="Subtitle" name="subtitle" v-model="project.subtitle" placeholder="Subtitle"/>
-            <FormulateInput type="textarea" label="Description" name="description" v-model="project.description" placeholder="Description"/>
-            <FormulateInput type="text" label="Date" name="date" v-model="project.date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
+    <section class="font-light text-gray-500 mb-20 flex flex-col w-full items-center">
+        <p class="text-5xl mt-10 mb-12 font-thin">New <span class="font-light">{{section.toUpperCase()}}</span> project</p>
+        <FormulateForm @submit="createProject" class="max-w-2xl" v-model="project">
+            <FormulateInput type="text" label="Title" name="title" placeholder="Title" validation="required"/>
+            <FormulateInput type="text" label="Subtitle" name="subtitle" placeholder="Subtitle"/>
+            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description"/>
+            <FormulateInput type="text" label="Date" name="date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
             <FormulateInput
-                type="image"
-                name="images"
+                type="group"
+                :repeatable="true"
+                name="images_preview"
                 label="Preview images"
                 help="These will be the 3 images the user sees before entering the project's details."
-                validation="mime:image/jpeg,image/png,image/gif|required|max:3"
-                multiple
-            />
+                validation="required"
+                add-label="+ Add image"
+            >
+                <FormulateInput
+                    type="image"
+                    name="image"
+                    validation="mime:image/jpeg,image/png,image/gif"
+                />
+            </FormulateInput>
             <FormulateInput
-                type="image"
+                type="group"
+                :repeatable="true"
                 name="images"
                 label="Images"
                 help="These will be all the images inside the project's details."
-                validation="mime:image/jpeg,image/png,image/gif|required"
-                multiple
-            />
+                validation="required"
+                add-label="+ Add image"
+            >
+                <FormulateInput
+                    type="image"
+                    name="image"
+                    validation="mime:image/jpeg,image/png,image/gif"
+                />
+            </FormulateInput>
              <FormulateInput
                 type="group"
                 name="tags"
-                v-model="project.tags"
                 :repeatable="true"
-                label="Insert tags"
+                label="Tags"
                 add-label="+ Add tag"
                 validation="max:3"
             >
@@ -36,12 +49,8 @@
                     label="Tag"
                 />
             </FormulateInput>
+            <FormulateInput type="submit" label="CREATE PROJECT" class="mt-10"/>
         </FormulateForm>
-        <!-- <input type="text" placeholder="Title"> -->
-        <!-- <label for="banner" class="flex flex-row mb-2">Image<p class="font-bold ml-1 text-black">{{ name.toUpperCase() }}</p></label>
-        <input type="file" name="banner" id="banner" @change="onFileSelected(name)" :value="currentImage.name" class="mt-2">
-        <img width="480" :src="currentImage" class="mt-2" :key="currentImage"/>
-        <p v-if="error" class="text-red-300">{{error}}</p> -->
     </section>
 </template>
 <script lang="ts">
@@ -49,6 +58,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
+import { asyncForEach } from '~/utils';
 
 export default Vue.extend({
     layout: 'admin',
@@ -64,7 +74,9 @@ export default Vue.extend({
                 title: '',
                 tags: [],
             },
-            section: ''
+            section: '',
+            images: [],
+            images_preview: []
         }
     },
     fetch() {
@@ -73,41 +85,48 @@ export default Vue.extend({
         this.section = this.$route.query.section
     },
     methods: {
-        createProject() {
-
+        async createProject(event: any) {
+            const preProcesedProject = {
+                date: event.date,
+                description: event.description,
+                slug: event.slug,
+                subtitle: event.subtitle,
+                title: event.title,
+                tags: this.processTags(event.tags),
+            }
+            const newProject = await firebase.firestore().collection('events').add(preProcesedProject)
+            const images_preview = await this.uploadImages(event.images_preview)
+            const images = await this.uploadImages(event.images)
+            await firebase.firestore().collection('events').doc(newProject.id).update({...preProcesedProject, images_preview, images})
         },
-        //@ts-ignore
-        currentSection(name: string) {
-            //@ts-ignore
-            return this.sections.find((el: any) => el.name == name)
-        },
-        onFileSelected(section: string){
-            // @ts-ignore
-            this.currentSection(section).selectedImage = window.event.target.files[0]
-            this.uploadBanner(section)
-        },
-        uploadBanner(section: string) {
+        async uploadImages(array: any[]) {
             try {
-                const currentSection = this.currentSection(section)
-                //@ts-ignore
-                let reference = firebase.storage().ref(`/images/${currentSection.selectedImage.name}`);
-                //@ts-ignore
-                let task = reference.put(currentSection.selectedImage);
-                task.on('state_changed', 
-                    () => {}, 
-                    error => currentSection.error = error.toString(), 
-                    async () => {
-                        const url = await task.snapshot.ref.getDownloadURL()
-                        // const collection = await db.collection('banners').get()
-                        // collection.forEach(doc => {
-                        //     doc.id === section && doc.ref.update({url: url})
-                        //     })
-                        // currentSection.currentImage = url
-                })
+                const processedImages: string[] = []
+                await Promise.all(array.map((element: any) => { 
+                    return new Promise((resolve, reject): void => {
+                        const image = element.image?.files[0]?.file
+                        if(!image) return
+                        //@ts-ignore
+                        let reference = firebase.storage().ref(`/images/events/${this.project.title}/${image.name}`);
+                        const task = reference.put(image);
+                        task.on('state_changed', 
+                            null,
+                            null,
+                            async () => {
+                                const url = await task.snapshot.ref.getDownloadURL()
+                                processedImages.push(url)
+                                resolve(url)
+                        })
+                    })
+                }))
+                return processedImages
             } catch(error) {
                 console.log(error)
             }
-        }
+        },
+        processTags(tags: {tag: string}[]) {
+            return tags.map(el => el.tag)
+        },
     }
 })
 </script>
