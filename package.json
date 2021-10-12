@@ -24,6 +24,7 @@
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/tailwindcss": "^4.2.0",
-    "postcss": "^8.3.5"
+    "postcss": "^8.3.5",
+    "vue-masonry-css": "^1.0.3"
   }
 }
