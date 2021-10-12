@@ -49,7 +49,12 @@
                     label="Tag"
                 />
             </FormulateInput>
-            <FormulateInput type="submit" label="CREATE PROJECT" class="mt-10"/>
+            <FormulateInput 
+                type="submit" 
+                :label="isLoading ? 'LOADING...' : isCreated ? 'PROJECT SUCCESSFULLY CREATED!' : 'CREATE PROJECT'" 
+                class="mt-10" 
+                :disabled="isLoading || isCreated"
+            />
         </FormulateForm>
     </section>
 </template>
@@ -58,7 +63,6 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
-import { asyncForEach } from '~/utils';
 
 export default Vue.extend({
     layout: 'admin',
@@ -76,7 +80,9 @@ export default Vue.extend({
             },
             section: '',
             images: [],
-            images_preview: []
+            images_preview: [],
+            isLoading: false,
+            isCreated: false
         }
     },
     fetch() {
@@ -86,18 +92,26 @@ export default Vue.extend({
     },
     methods: {
         async createProject(event: any) {
-            const preProcesedProject = {
-                date: event.date,
-                description: event.description,
-                slug: event.slug,
-                subtitle: event.subtitle,
-                title: event.title,
-                tags: this.processTags(event.tags),
+            try {
+                this.isLoading = true
+                const preProcesedProject = {
+                    date: event.date,
+                    description: event.description,
+                    slug: event.slug,
+                    subtitle: event.subtitle,
+                    title: event.title,
+                    tags: this.processTags(event.tags),
+                }
+                const newProject = await firebase.firestore().collection('events').add(preProcesedProject)
+                const images_preview = await this.uploadImages(event.images_preview)
+                const images = await this.uploadImages(event.images)
+                await firebase.firestore().collection('events').doc(newProject.id).update({...preProcesedProject, images_preview, images})
+                this.isLoading = false
+                this.isCreated = true
+            } catch(error) {
+                this.isLoading = false
+                console.log(error)
             }
-            const newProject = await firebase.firestore().collection('events').add(preProcesedProject)
-            const images_preview = await this.uploadImages(event.images_preview)
-            const images = await this.uploadImages(event.images)
-            await firebase.firestore().collection('events').doc(newProject.id).update({...preProcesedProject, images_preview, images})
         },
         async uploadImages(array: any[]) {
             try {
