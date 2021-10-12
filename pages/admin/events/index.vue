@@ -1,4 +1,4 @@
 <script>
-import ProjectList from '~/pages/admin/project-list.vue'
+import ProjectList from '~/pages/admin/dynamic/project-list.vue'
 export default ProjectList
 </script>

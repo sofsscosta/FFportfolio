@@ -7,7 +7,7 @@
             Here you can create, edit or delete projects for the {{ section }} section. Click on each item to see it's details.
         </h2>
         <client-only>
-        <ul class="mb-20 w-full px-10" :key="projects && projects.length">
+        <ul class="mb-20 w-full px-10" :key="projects && projects.length" v-if="projects.length">
             <div class="flex flex-row justify-between text-lg">
                 <p>Title</p>
                 <p>Date</p>
@@ -60,6 +60,9 @@ export default Vue.extend({
         this.projects = this.$store.state[section].projects
     },
     created() {
+        const section = this.$route.path.split('/admin/')[1]?.split('/')[0]
+        if (!section) this.$router.push('/admin/error')
+        this.section = section
         this.projects = this.$store.state[this.section].projects
     },
     methods: {
