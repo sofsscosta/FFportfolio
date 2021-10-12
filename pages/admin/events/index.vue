@@ -16,11 +16,11 @@
             <hr>
             <li v-for="(project, index) in projects" :key="index">
                 <div class="flex flex-row justify-between items-center">
-                    <nuxt-link :to="`/admin${project.slug}`">
+                    <nuxt-link :to="`/admin/events/${project.id}`">
                         <p>{{project.title}}</p>
                     </nuxt-link>
                     <p>{{project.date}}</p>
-                    <nuxt-link :to="`/admin${project.slug}`">
+                    <nuxt-link :to="`/admin/events/${project.id}`">
                         <img v-if="project.images_preview && project.images_preview.length" :src="project.images_preview[0]" width="200" alt="" class="my-2"/>
                     </nuxt-link>
                     <div>
@@ -30,7 +30,7 @@
                 <hr>
             </li>
         </ul>
-        <nuxt-link :to="{path:'/admin/create-project?section=events'}" class="w-0">
+        <nuxt-link :to="{ path:'/admin/create-project?section=events' }" class="w-0">
             <p class="bg-gray-400 rounded-full px-3 py-2 text-white w-min min-w-max">Create Project</p>
         </nuxt-link>
     </div>

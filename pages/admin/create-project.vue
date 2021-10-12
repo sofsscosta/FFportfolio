@@ -97,7 +97,7 @@ export default Vue.extend({
                 const preProcesedProject = {
                     date: event.date,
                     description: event.description,
-                    slug: event.slug,
+                    slug: this.generateSlug(event.title),
                     subtitle: event.subtitle,
                     title: event.title,
                     tags: this.processTags(event.tags),
@@ -141,13 +141,9 @@ export default Vue.extend({
         processTags(tags: {tag: string}[]) {
             return tags.map(el => el.tag)
         },
+        generateSlug(title:string) {
+            return `/events/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
+        }
     }
 })
 </script>
-
-<style scoped>
-.formulate-file-image-preview-image {
-    width: auto;
-    height: 2.5rem;
-}
-</style>
