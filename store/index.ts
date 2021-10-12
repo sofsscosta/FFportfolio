@@ -20,7 +20,7 @@ export const state = () => ({
             slug: '',
             subtitle: '',
             title: '',
-            tags: '',
+            tags: [],
         }
     },
     video: {
@@ -34,7 +34,7 @@ export const state = () => ({
             slug: '',
             subtitle: '',
             title: '',
-            tags: '',
+            tags: [],
         }
     },
     fashion: {
@@ -48,7 +48,7 @@ export const state = () => ({
             slug: '',
             subtitle: '',
             title: '',
-            tags: '',
+            tags: [],
         }
     },
     product: {
@@ -62,7 +62,7 @@ export const state = () => ({
             slug: '',
             subtitle: '',
             title: '',
-            tags: '',
+            tags: [],
         }
     },
 })
@@ -109,9 +109,14 @@ export const actions: ActionTree<RootState, RootState> = {
             console.log(error)
         }
     },
-    async getProject() {
+    async getProject({ commit }, {section, slug}: {section: string; slug: string}) {
         try {
-
+            const processedSlug = `/${section}/${slug}`
+            const unprocessedProject = await firebase.firestore().collection(section).where('slug', '==', processedSlug).get()
+            const id = unprocessedProject.docs[0].id
+            const restOfProject = unprocessedProject.docs[0].data()
+            const project = {...restOfProject, id}
+            commit('SET_PROJECT', {section, project})
         } catch(error) {
             console.log(error)
         }
@@ -135,6 +140,9 @@ export const mutations: MutationTree<RootState> = {
     },
     SET_PROJECTS(state, {section, items}: { section: Sections; items: Project[] }) {
         state[section].projects = items
+    },
+    SET_PROJECT(state, { section, project }: { section: Sections; project: Project}) {
+        state[section].selectedProject = project
     }
 }
 
