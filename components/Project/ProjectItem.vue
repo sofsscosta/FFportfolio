@@ -1,5 +1,5 @@
 <template>
-  <div class="h-96 mb-28 overflow-x-hidden" >
+  <div class="mb-28 overflow-x-hidden" >
     <nuxt-link :to="slug" class="w-full h-full">
       <header class="flex flex-wrap flex-row justify-between font-thin">
         <div>

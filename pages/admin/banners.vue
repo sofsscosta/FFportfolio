@@ -9,7 +9,7 @@
         <section v-for="{name, currentImage, error} in sections" :key="name" class="mb-20">
             <label for="banner" class="flex flex-row mb-2">Banner for <p class="font-bold ml-1 text-black">{{ name.toUpperCase() }}</p></label>
             <img width="480" :src="currentImage" class="mt-2" :key="currentImage"/>
-            <input type="file" name="banner" id="banner" @change="onFileSelected(name)" :value="currentImage.name" class="mt-2">
+            <FormulateInput type="image" name="banner" @change="onFileSelected(name)" class="mt-2 max-w-md"/>
             <p v-if="error" class="text-red-300">{{error}}</p>
             <div></div>
         </section>

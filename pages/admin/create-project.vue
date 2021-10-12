@@ -11,7 +11,7 @@
                 :repeatable="true"
                 name="images_preview"
                 label="Preview images"
-                help="These will be the 3 images the user sees before entering the project's details."
+                help="Introduce them in order of display. These will be the 3 images the user sees before entering the project's details."
                 validation="required"
                 add-label="+ Add image"
             >
@@ -26,7 +26,7 @@
                 :repeatable="true"
                 name="images"
                 label="Images"
-                help="These will be all the images inside the project's details."
+                help="Introduce them in order of display. These will be all the images inside the project's details."
                 validation="required"
                 add-label="+ Add image"
             >
