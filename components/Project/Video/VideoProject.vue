@@ -20,7 +20,6 @@
         </div>
       </header>
       <img :src="image_preview" alt="" class="w-full h-auto mt-10">
-      <!-- <div :inner-html.prop="embed" class="w-full mt-10"/> -->
     </nuxt-link>
   </div>
 </template>

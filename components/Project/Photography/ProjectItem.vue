@@ -15,7 +15,7 @@
             {{ date }}
           </p>
           <div class="flex flex-row">
-            <Tag v-for="tag in tags" :key="tag" :tag="tag" class="ml-2"/>
+            <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="ml-2"/>
           </div>
         </div>
       </header>

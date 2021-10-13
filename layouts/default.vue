@@ -1,9 +1,9 @@
 <template>
-  <body>
+  <div>
     <Navbar />
     <nuxt />
     <Footer />
-  </body>
+  </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
