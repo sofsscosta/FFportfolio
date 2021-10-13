@@ -5,77 +5,89 @@
             Here you can create, edit or delete reviews. Click on each item to see its details.
         </h2>
         <client-only>
-        <ul class="mb-20 w-full px-10" :key="projects && projects.length" v-if="projects.length">
+        <ul class="mb-20 w-full px-10" :key="reviews && reviews.length" v-if="reviews.length">
             <div class="flex flex-row justify-between text-lg">
-                <p>Title</p>
-                <p>Date</p>
-                <p>Image Preview</p>
+                <p>Author</p>
+                <p>Text</p>
+                <p>See related project</p>
                 <p>Actions</p>
             </div>
             <hr>
-            <li v-for="(project, index) in projects" :key="index">
-                <div class="flex flex-row justify-between items-center">
-                    <nuxt-link :to="`/admin/${section}/${project.id}`">
-                        <p>{{project.title}}</p>
+            <li v-for="(review, index) in reviews" :key="index">
+                <div class="flex flex-row justify-between items-center py-5">
+                    <nuxt-link :to="`/admin/reviews/edit/${review.id}`">
+                        <p>{{review.author}}</p>
                     </nuxt-link>
-                    <p>{{project.date}}</p>
-                    <nuxt-link :to="`/admin/${section}/${project.id}`">
-                        <img v-if="project.image_preview || (project.images_preview && project.images_preview.length)" :src="project.image_preview || project.images_preview[0]" width="200" alt="" class="my-2"/>
+                    <p>{{truncate(review.text, 30)}}</p>
+                    <nuxt-link :to="`/admin${review.project && review.project.slug}}`" :key="!!review.project + ' ' + index" class="flex items-center">
+                        <p class="bg-gray-200 rounded-full px-3 py-2 w-min min-w-max">{{ review.project && review.project.title }}</p>
                     </nuxt-link>
                     <div>
-                        <nuxt-link :to="`/admin/reviews/create${project.slug}`" >Add Review</nuxt-link>
-                        <button @click.self="handleDelete(project.title, project.id)">Delete</button>
+                        <button @click.self="handleDelete(review.title, review.id)">Delete</button>
                     </div>
                 </div>
                 <hr>
             </li>
         </ul>
         </client-only>
-        <nuxt-link :to="{ path: section === 'video' ? `/admin/create-video-project` : `/admin/create-project?section=${section}` }" class="w-0">
-            <p class="bg-gray-400 rounded-full px-3 py-2 text-white w-min min-w-max">Create Project</p>
+        <nuxt-link :to="`/admin/reviews/create`" name="Add">
+            <p class="bg-gray-400 rounded-full px-3 py-2 text-white w-min min-w-max mb-8">Add review</p>
         </nuxt-link>
+        <label for="Add">NOTE: this review will have no project associated. To create a review for a project please got to the section that project belongs to.</label>
     </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
 import firebase from "firebase/app";
-import { Project } from '~/types';
+import { Review } from '~/types';
+import {truncate} from '~/utils'
 
 export default Vue.extend({
     layout: 'admin',
     data() {
-        const projects: Project[] = []
+        const reviews: any[] = []
         return {
-            projects,
-            section: ''
+            reviews,
         }
     },
     async fetch() {
-        const section = this.$route.path.split('/admin/')[1]?.split('/')[0]
-        if (!section) this.$router.push('/admin/error')
-        this.section = section
+        await this.$store.dispatch('fetchReviews')
+        this.reviews = this.$store.state.reviews
 
-        await this.$store.dispatch('getSectionItems', section)
-        this.projects = this.$store.state[section].projects
+        this.reviews = await Promise.all(this.reviews.map(async review => {
+            const collection = review.link.split('/')[1]
+
+            const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', review.link).get()
+            const project = unprocessedProject.docs[0].data()
+            const projectInfo = { slug: `/${collection}/${unprocessedProject.docs[0].id}`, title: project.title }
+            review.project = projectInfo
+            return review
+        }))
     },
-    created() {
-        const section = this.$route.path.split('/admin/')[1]?.split('/')[0]
-        if (!section) this.$router.push('/admin/error')
-        this.section = section
-        this.projects = this.$store.state[this.section].projects
+    async created() {
+        this.reviews = this.$store.state.reviews
     },
     methods: {
-        async handleDelete(title: string, id: string) {
+        async handleDelete(author: string, id: string) {
             try {
-                const isConfirmed = window.confirm(`Are you sure you want to delete ${title}?`)
+                const isConfirmed = window.confirm(`Are you sure you want to delete review by ${author}?`)
                 if(!isConfirmed) return;
-                await firebase.firestore().collection(this.section).doc(id).delete()
-                await this.$store.dispatch('getSectionItems', this.section)
-                this.projects = this.$store.state[this.section].projects
+                await firebase.firestore().collection('reviews').doc(id).delete()
+                await this.$store.dispatch('fetchReviews')
+                this.reviews = this.$store.state.reviews
             } catch(error) {
                 console.log(error)
             }
         },
+        truncate,
+        async getProjectInfo (link: string): Promise<{ slug: string; title: string }> {
+            const collection = link.split('/')[1]
+
+            const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', link).get()
+            const project = unprocessedProject.docs[0].data()
+            const projectInfo = { slug: `/${collection}/${unprocessedProject.docs[0].id}`, title: project.title }
+            return projectInfo
+        }
     }
 })
 </script>
