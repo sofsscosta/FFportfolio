@@ -2,7 +2,7 @@ import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Banner, Project, RootState, Sections, VideoProject } from "~/types";
+import { Banner, Project, Review, RootState, Sections, VideoProject } from "~/types";
 
 export const state = () => ({
     isLogged: false,
@@ -65,16 +65,18 @@ export const state = () => ({
             tags: [],
         }
     },
+    reviews: []
 })
 
 export const actions: ActionTree<RootState, RootState> = {
-    async nuxtServerInit({ commit }) {
+    async nuxtServerInit({ commit, dispatch }) {
         const isUserLogged = await firebase.auth().currentUser
         this.commit('SET_LOGGED_STATE', !!isUserLogged)
         const allCollections = await firebase.firestore().collection('banners').get()
         const banners: Banner[] = []
         allCollections.forEach(doc => banners.push({ section: doc.id, bannerUrl: '' }))
         commit('SET_SECTIONS', banners)
+        await dispatch('fetchReviews')
     },
     async logIn({ commit }, {email, password}: {email: string, password: string}) {
         try {
@@ -120,6 +122,19 @@ export const actions: ActionTree<RootState, RootState> = {
         } catch(error) {
             console.log(error)
         }
+    },
+    async fetchReviews({ commit }) {
+        try {
+            const unprocessedProject = await firebase.firestore().collection('reviews').get()
+            const reviews: Review[] = []
+            unprocessedProject.forEach(doc => {
+                const { author, link, text } = doc.data()
+                reviews.push({ id: doc.id, author, link, text })
+            })
+            commit('SET_REVIEWS', reviews)
+        } catch(error) {
+            console.log(error)
+        }
     }
 }
 
@@ -143,6 +158,9 @@ export const mutations: MutationTree<RootState> = {
     },
     SET_PROJECT(state, { section, project }: { section: Sections; project: Project}) {
         state[section].selectedProject = project
+    },
+    SET_REVIEWS(state, reviews: Review[]) {
+        state.reviews = reviews
     }
 }
 

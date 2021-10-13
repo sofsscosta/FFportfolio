@@ -1,10 +1,10 @@
 <template>
     <section class="font-light text-gray-500 mb-20 flex flex-col w-full items-center">
-        <!-- <p class="text-5xl mt-10 mb-12 font-thin">Edit <span class="font-light">{{project.name.toUpperCase()}}</span> project</p> -->
+        <p class="text-5xl mt-10 mb-12 font-thin">Edit <span class="font-light">{{project.title.toUpperCase()}}</span> project</p>
         <FormulateForm @submit="updateProject" class="max-w-2xl" v-model="project">
             <FormulateInput type="text" label="Title" name="title" placeholder="Title" validation="required"/>
             <FormulateInput type="text" label="Subtitle" name="subtitle" placeholder="Subtitle"/>
-            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description"/>
+            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description" input-class="h-56"/>
             <FormulateInput type="text" label="Date" name="date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
             <FormulateInput
                 type="group"

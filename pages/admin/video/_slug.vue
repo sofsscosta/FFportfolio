@@ -4,7 +4,7 @@
         <FormulateForm @submit="updateProject" class="max-w-2xl" v-model="project">
             <FormulateInput type="text" label="Title" name="title" placeholder="Title" validation="required"/>
             <FormulateInput type="text" label="Subtitle" name="subtitle" placeholder="Subtitle"/>
-            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description"/>
+            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description" input-class="h-56"/>
             <FormulateInput type="text" label="Date" name="date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
             <FormulateInput type="textarea" label="Embed video info" name="embed" placeholder="Embed" helper="This is the code you get from youtube/vimeo/other so we can display the video :)" input-class="h-32"/>
             <FormulateInput

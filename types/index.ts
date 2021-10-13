@@ -6,6 +6,7 @@ export interface RootState {
     video: Section,
     fashion: Section,
     product: Section,
+    reviews: Review[],
 }
 
 // create an interface for section base that extends to video section or normal section
@@ -55,3 +56,10 @@ export interface About {
 }
 
 export type Sections = 'events' | 'fashion' | 'product' | 'video'
+
+export interface Review {
+    id: string;
+    author: string;
+    text: string;
+    link: string;
+}

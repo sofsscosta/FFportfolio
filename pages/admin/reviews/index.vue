@@ -1,10 +1,8 @@
 <template>
     <div class="font-light text-gray-500">
-        <h2 class="text-3xl mt-14 mb-3 font-thin">
-            {{ section.toUpperCase() }}
-        </h2>
+        <h2 class="text-3xl mt-14 mb-3 font-thin">REVIEWS</h2>
         <h2 class="font-light mb-10">
-            Here you can create, edit or delete projects for the {{ section }} section. Click on each item to see its details.
+            Here you can create, edit or delete reviews. Click on each item to see its details.
         </h2>
         <client-only>
         <ul class="mb-20 w-full px-10" :key="projects && projects.length" v-if="projects.length">

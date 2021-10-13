@@ -40,6 +40,10 @@ export default Vue.extend({
                     link: '/admin/video'
                 }, 
                 {
+                    name: 'Reviews',
+                    link: '/admin/reviews'
+                }, 
+                {
                     name: 'About Me',
                     link: '/admin/about'
                 }, 
