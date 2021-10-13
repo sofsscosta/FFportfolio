@@ -5,11 +5,11 @@
             <FormulateInput type="text" label="Author" name="author" placeholder="Name of reviewer" validation="required"/>
             <FormulateInput type="text" label="Text" name="text" placeholder="Text - what did they say?" validation="required"/>
             <div v-if="review.link" class=" mb-8"> Path to project this review relates to: <span class="font-bold">{{ review.link }}</span></div>
-            <nuxt-link :to="`/admin/${collection}/${originalProjectId}`" class="mt-10 bg-gray-200 rounded-full px-3 py-2"> See related project </nuxt-link>
+            <nuxt-link v-if="review.link" :to="`/admin/${collection}/${originalProjectId}`" class="mt-10 bg-gray-200 rounded-full px-3 py-2"> See related project </nuxt-link>
             <div v-if="!review.link">This review is not associated with any project.</div>
             <FormulateInput 
                 type="submit" 
-                :label="isLoading ? 'LOADING...' : 'ADD REVIEW'" 
+                :label="isLoading ? 'LOADING...' : 'UPDATE REVIEW'" 
                 class="mt-10" 
                 :disabled="isLoading"
             />
@@ -47,6 +47,8 @@ export default Vue.extend({
         if (!review) this.$router.push('/admin/error')
         //@ts-ignore
         this.review = {...review, id: this.review.id}
+
+        if (!this.review.link) return
 
         const collection = this.review.link.split('/')[1]
 
