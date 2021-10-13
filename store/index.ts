@@ -1,34 +1,70 @@
 import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
-// import { RootState } from '~/types'
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Banner, Project, Sections } from "~/types";
-
-interface RootState {
-    isLogged: false,
-    error: {
-        user: string | undefined
-    },
-    banners: Banner[],
-    events: Project[],
-    video: Project[],
-    fashion: Project[],
-    product: Project[],
-}
-
-// const db = firebase.firestore()
+import { Banner, Project, RootState, Sections, VideoProject } from "~/types";
 
 export const state = () => ({
     isLogged: false,
     error: {
         user: ''
     },
-    banners: [],
-    events: [],
-    video: [],
-    fashion: [],
-    product: [],
+    events: {
+        projects: [],
+        selectedProject: {
+            id: '',
+            date: '',
+            description: '',
+            images: [],
+            images_preview: [],
+            slug: '',
+            subtitle: '',
+            title: '',
+            tags: [],
+        }
+    },
+    video: {
+        projects: [],
+        selectedProject: {
+            id: '',
+            date: '',
+            description: '',
+            image_preview: [],
+            embed: '',
+            slug: '',
+            subtitle: '',
+            title: '',
+            tags: [],
+        }
+    },
+    fashion: {
+        projects: [],
+        selectedProject: {
+            id: '',
+            date: '',
+            description: '',
+            images: [],
+            images_preview: [],
+            slug: '',
+            subtitle: '',
+            title: '',
+            tags: [],
+        }
+    },
+    product: {
+        projects: [],
+        selectedProject: {
+            id: '',
+            date: '',
+            description: '',
+            images: [],
+            images_preview: [],
+            slug: '',
+            subtitle: '',
+            title: '',
+            tags: [],
+        }
+    },
 })
 
 export const actions: ActionTree<RootState, RootState> = {
@@ -72,6 +108,18 @@ export const actions: ActionTree<RootState, RootState> = {
         } catch(error) {
             console.log(error)
         }
+    },
+    async getProject({ commit }, {section, slug}: {section: string; slug: string}) {
+        try {
+            const processedSlug = `/${section}/${slug}`
+            const unprocessedProject = await firebase.firestore().collection(section).where('slug', '==', processedSlug).get()
+            const id = unprocessedProject.docs[0].id
+            const restOfProject = unprocessedProject.docs[0].data()
+            const project = {...restOfProject, id}
+            commit('SET_PROJECT', {section, project})
+        } catch(error) {
+            console.log(error)
+        }
     }
 }
 
@@ -91,7 +139,10 @@ export const mutations: MutationTree<RootState> = {
         banner.bannerUrl = bannerUrl
     },
     SET_PROJECTS(state, {section, items}: { section: Sections; items: Project[] }) {
-        state[section] = items
+        state[section].projects = items
+    },
+    SET_PROJECT(state, { section, project }: { section: Sections; project: Project}) {
+        state[section].selectedProject = project
     }
 }
 

@@ -25,7 +25,12 @@ export default {
   css: ['~/assets/main.css', '~/assets/formulate.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['./plugins/firebase.js', '~/plugins/vue-formulate'],
+  plugins: [
+    './plugins/firebase.js',
+    '~/plugins/vue-formulate',
+    '~/plugins/vue-zoomer',
+    { src: '~/plugins/masonry', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

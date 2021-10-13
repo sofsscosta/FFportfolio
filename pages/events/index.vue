@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Banner from '~/components/Images/Banner.vue'
-import ProjectItem from '~/components/Project/ProjectItem.vue'
+import ProjectItem from '~/components/Project/Photography/ProjectItem.vue'
 import { Project } from "~/types";
 
 export default Vue.extend({
@@ -28,14 +28,14 @@ export default Vue.extend({
   async fetch({store}) {
     try {
       !store.getters['getBanner']('events').bannerUrl && await store.dispatch('getBanner', 'events')
-      !store.state.events.length && await store.dispatch('getSectionItems', 'events')
+      !store.state.events.projects.length && await store.dispatch('getSectionItems', 'events')
     } catch (error) {
       console.error(error);
     }
   },
   created() {
     this.bannerImage = this.$store.getters['getBanner']('events').bannerUrl
-    this.projects = this.$store.state.events
+    this.projects = this.$store.state.events.projects
   }
 });
 </script>
