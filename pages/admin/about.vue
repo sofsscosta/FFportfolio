@@ -9,6 +9,9 @@
                 <FormulateInput type="text" label="Instagram" name="instagram" placeholder="Instagram" validation="required"/>
             </FormulateInput>
             <FormulateInput type="textarea" label="Description" name="description" placeholder="Description" validation="required" input-class="h-56"/>
+            <p>Current image</p>
+            <img width="480" :src="currentImage" class="mt-2" :key="currentImage"/>
+            <FormulateInput type="image" name="image" @change="onFileSelected" class="mt-2 max-w-md"/>
             <FormulateInput 
                 type="submit" 
                 :label="isLoading ? 'LOADING...' : 'UPDATE PROJECT'" 
@@ -38,12 +41,14 @@ export default Vue.extend({
                 description: ''
             },
             isLoading: false,
+            currentImage: '',
+            selectedImage: null,
         }
     },
     async fetch() {
         await this.$store.dispatch('fetchAbout')
+        this.currentImage = this.$store.state.about.image
         this.about = { contacts: [this.$store.state.about.contacts], description: this.$store.state.about.description }
-        console.log(this.about)
     },
     created() {
         this.about = this.$store.state.about
@@ -60,7 +65,31 @@ export default Vue.extend({
                 this.isLoading = false
                 console.log(error)
             }
+        },
+        onFileSelected(event:any){
+            // @ts-ignore
+            this.selectedImage = event.target.files[0]
+            this.uploadImage()
+        },
+        uploadImage() {
+            try {
+                //@ts-ignore
+                let reference = firebase.storage().ref(`/images/about/${this.selectedImage.name}`);
+                //@ts-ignore
+                let task = reference.put(this.selectedImage);
+                task.on('state_changed', 
+                    () => {}, 
+                    error => console.log(error), 
+                    async () => {
+                        const url = await task.snapshot.ref.getDownloadURL()
+                        const uprocessedAbout = await firebase.firestore().collection('about').doc('RCNULCtvbhhssWzzZkTI')
+                        const about = await uprocessedAbout.get()
+                        await uprocessedAbout.update({...about.data(), image: url})
+                })
+            } catch(error) {
+                console.log(error)
+            }
         }
-    }
+    }   
 })
 </script>

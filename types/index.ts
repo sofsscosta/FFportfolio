@@ -48,14 +48,6 @@ export interface VideoProject {
     tags: string[];
 }
 
-export interface About {
-    email: string,
-    phone: string,
-    city: string,
-    instagram: string,
-    year: number,
-}
-
 export type Sections = 'events' | 'fashion' | 'product' | 'video'
 
 export interface Review {
@@ -73,5 +65,6 @@ export interface About {
         instagram: string,
         year: number,
     };
+    image: string;
     description: string
 }

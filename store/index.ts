@@ -67,11 +67,15 @@ export const state = () => ({
     },
     reviews: [],
     about: {
-        email: 'ferranpamiesflack44@gmail.com',
-        phone: '644426640',
-        city: 'Barcelona',
-        instagram: 'fpf_production',
-        year: 2021,
+        contacts: {
+            email: 'ferranpamiesflack44@gmail.com',
+            phone: '644426640',
+            city: 'Barcelona',
+            instagram: 'fpf_production',
+            year: 2021,
+        },
+        description: '',
+        image: ''
     }
 })
 
