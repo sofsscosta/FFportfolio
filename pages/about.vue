@@ -36,25 +36,18 @@ export default Vue.extend({
   async fetch({store}) {
     try {
       !store.getters['getBanner']('home').bannerUrl && await store.dispatch('getBanner', 'home')
+      await store.dispatch('fetchAbout')
     } catch (error) {
       console.error(error);
     }
   },
   async created() {
       this.bannerImage = this.$store.getters['getBanner']('home').bannerUrl
-      const db = firebase.firestore();
-      const snapshot = await db
-        .collection("about")
-        .doc("RCNULCtvbhhssWzzZkTI")
-        .get();
-      const data = snapshot.data();
-      if (data) {
-        this.email = data.contacts.email;
-        this.phone = data.contacts.phone;
-        this.city = data.contacts.city;
-        this.instagram = data.contacts.instagram;
-      }
-      this.year = new Date().getFullYear();
+      const { email, phone, city, instagram } = this.$store.state.about.contacts
+        this.email = email;
+        this.phone = phone;
+        this.city = city;
+        this.instagram = instagram;
   }
 });
 </script>

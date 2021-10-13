@@ -7,6 +7,7 @@ export interface RootState {
     fashion: Section,
     product: Section,
     reviews: Review[],
+    about: About
 }
 
 // create an interface for section base that extends to video section or normal section
@@ -62,4 +63,15 @@ export interface Review {
     author: string;
     text: string;
     link: string;
+}
+
+export interface About {
+    contacts: {
+        email: string,
+        phone: string,
+        city: string,
+        instagram: string,
+        year: number,
+    };
+    description: string
 }

@@ -2,7 +2,7 @@ import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Banner, Project, Review, RootState, Sections, VideoProject } from "~/types";
+import { About, Banner, Project, Review, RootState, Sections } from "~/types";
 
 export const state = () => ({
     isLogged: false,
@@ -65,7 +65,14 @@ export const state = () => ({
             tags: [],
         }
     },
-    reviews: []
+    reviews: [],
+    about: {
+        email: 'ferranpamiesflack44@gmail.com',
+        phone: '644426640',
+        city: 'Barcelona',
+        instagram: 'fpf_production',
+        year: 2021,
+    }
 })
 
 export const actions: ActionTree<RootState, RootState> = {
@@ -77,6 +84,7 @@ export const actions: ActionTree<RootState, RootState> = {
         allCollections.forEach(doc => banners.push({ section: doc.id, bannerUrl: '' }))
         commit('SET_SECTIONS', banners)
         await dispatch('fetchReviews')
+        await dispatch('fetchAbout')
     },
     async logIn({ commit }, {email, password}: {email: string, password: string}) {
         try {
@@ -135,6 +143,18 @@ export const actions: ActionTree<RootState, RootState> = {
         } catch(error) {
             console.log(error)
         }
+    },
+    async fetchAbout({ commit }) {
+        try {
+            const snapshot = await firebase.firestore()
+                .collection("about")
+                .doc("RCNULCtvbhhssWzzZkTI")
+                .get();
+            const data = snapshot.data()
+            commit('SET_ABOUT', data)
+        } catch(error) {
+            console.log(error)
+        }
     }
 }
 
@@ -161,6 +181,9 @@ export const mutations: MutationTree<RootState> = {
     },
     SET_REVIEWS(state, reviews: Review[]) {
         state.reviews = reviews
+    },
+    SET_ABOUT(state, about: About) {
+        state.about = about
     }
 }
 
