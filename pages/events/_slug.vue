@@ -29,8 +29,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Tag from '~/components/Project/Tag.vue'
-import Grid from '~/components/Project/Grid.vue'
-import Modal from '~/components/Project/Modal.vue'
+import Grid from '~/components/Project/Photography/Grid.vue'
+import Modal from '~/components/Project/Photography/Modal.vue'
 
 export default Vue.extend({
     components: { Tag, Grid, Modal },

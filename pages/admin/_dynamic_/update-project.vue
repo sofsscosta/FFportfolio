@@ -110,8 +110,8 @@ export default Vue.extend({
         const id = project.id
         const projectDoc = project.data()
         if (!projectDoc) return
-        const images = projectDoc.images.map((el: any) => { return {url: el} })
-        const images_preview = projectDoc.images_preview.map((el: any) => { return {url: el} })
+        const images = projectDoc.images?.map((el: any) => { return {url: el} })
+        const images_preview = projectDoc.images_preview?.map((el: any) => { return {url: el} })
         const tags = projectDoc.tags.map((el: any) => { return {tag: el} })
         //@ts-ignore
         this.project = { ...projectDoc, images, images_preview, tags, id }

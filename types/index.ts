@@ -8,9 +8,10 @@ export interface RootState {
     product: Section,
 }
 
+// create an interface for section base that extends to video section or normal section
 export interface Section {
     projects: Project[];
-    selectedProject: Project
+    selectedProject: Project | VideoProject
 }
 
 export interface Banner {
@@ -19,12 +20,26 @@ export interface Banner {
     section: string;
 }
 
+// create an interface for project base that extends to video project or normal project
+
 export interface Project {
     id: string;
     date: string;
     description?: string;
     images: string[];
     images_preview: string[];
+    slug: string;
+    subtitle: string;
+    title: string;
+    tags: string[];
+}
+
+export interface VideoProject {
+    id: string;
+    date: string;
+    description?: string;
+    image_preview: string;
+    embed: string;
     slug: string;
     subtitle: string;
     title: string;

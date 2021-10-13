@@ -22,7 +22,7 @@
                     </nuxt-link>
                     <p>{{project.date}}</p>
                     <nuxt-link :to="`/admin/${section}/${project.id}`">
-                        <img v-if="project.images_preview && project.images_preview.length" :src="project.images_preview[0]" width="200" alt="" class="my-2"/>
+                        <img v-if="project.image_preview || (project.images_preview && project.images_preview.length)" :src="project.image_preview || project.images_preview[0]" width="200" alt="" class="my-2"/>
                     </nuxt-link>
                     <div>
                         <button @click.self="handleDelete(project.title, project.id)">Delete</button>
@@ -32,7 +32,7 @@
             </li>
         </ul>
         </client-only>
-        <nuxt-link :to="{ path:`/admin/create-project?section=${section}` }" class="w-0">
+        <nuxt-link :to="{ path: section === 'video' ? `/admin/create-video-project` : `/admin/create-project?section=${section}` }" class="w-0">
             <p class="bg-gray-400 rounded-full px-3 py-2 text-white w-min min-w-max">Create Project</p>
         </nuxt-link>
     </div>

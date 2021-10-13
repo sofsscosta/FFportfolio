@@ -2,7 +2,7 @@ import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Banner, Project, RootState, Sections } from "~/types";
+import { Banner, Project, RootState, Sections, VideoProject } from "~/types";
 
 export const state = () => ({
     isLogged: false,
@@ -29,8 +29,8 @@ export const state = () => ({
             id: '',
             date: '',
             description: '',
-            images: [],
-            images_preview: [],
+            image_preview: [],
+            embed: '',
             slug: '',
             subtitle: '',
             title: '',
