@@ -4,7 +4,7 @@
             {{ section.toUpperCase() }}
         </h2>
         <h2 class="font-light mb-10">
-            Here you can create, edit or delete projects for the {{ section }} section. Click on each item to see it's details.
+            Here you can create, edit or delete projects for the {{ section }} section. Click on each item to see its details.
         </h2>
         <client-only>
         <ul class="mb-20 w-full px-10" :key="projects && projects.length" v-if="projects.length">
@@ -25,6 +25,7 @@
                         <img v-if="project.image_preview || (project.images_preview && project.images_preview.length)" :src="project.image_preview || project.images_preview[0]" width="200" alt="" class="my-2"/>
                     </nuxt-link>
                     <div>
+                        <nuxt-link :to="`/admin/reviews/create${project.slug}`" >Add Review</nuxt-link>
                         <button @click.self="handleDelete(project.title, project.id)">Delete</button>
                     </div>
                 </div>

@@ -1,10 +1,10 @@
 <template>
     <section class="font-light text-gray-500 mb-20 flex flex-col w-full items-center">
-        <!-- <p class="text-5xl mt-10 mb-12 font-thin">Edit <span class="font-light">{{project.name.toUpperCase()}}</span> project</p> -->
+        <p class="text-5xl mt-10 mb-12 font-thin">Edit <span class="font-light">{{project.title.toUpperCase()}}</span> project</p>
         <FormulateForm @submit="updateProject" class="max-w-2xl" v-model="project">
             <FormulateInput type="text" label="Title" name="title" placeholder="Title" validation="required"/>
             <FormulateInput type="text" label="Subtitle" name="subtitle" placeholder="Subtitle"/>
-            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description"/>
+            <FormulateInput type="textarea" label="Description" name="description" placeholder="Description" input-class="h-56"/>
             <FormulateInput type="text" label="Date" name="date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
             <FormulateInput
                 type="group"
@@ -112,7 +112,7 @@ export default Vue.extend({
         if (!projectDoc) return
         const images = projectDoc.images?.map((el: any) => { return {url: el} })
         const images_preview = projectDoc.images_preview?.map((el: any) => { return {url: el} })
-        const tags = projectDoc.tags.map((el: any) => { return {tag: el} })
+        const tags = projectDoc.tags && projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
         //@ts-ignore
         this.project = { ...projectDoc, images, images_preview, tags, id }
     },
@@ -126,7 +126,7 @@ export default Vue.extend({
                     description: event.description,
                     subtitle: event.subtitle,
                     title: event.title,
-                    tags: this.processTags(event.tags),
+                    tags: event.tags?.length ? this.processTags(event.tags) : [],
                     slug: this.project.slug
                 }
                 const images_preview = await this.uploadImages(event.images_preview)
@@ -171,7 +171,7 @@ export default Vue.extend({
             }
         },
         processTags(tags: {tag: string}[]) {
-            return tags.filter(tag => tag.tag).map(el => el.tag)
+            return tags.length && tags.filter(tag => tag.tag).map(el => el.tag)
         },
         generateSlug(title:string) {
             return `/${this.section}/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`

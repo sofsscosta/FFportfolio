@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full p-5 bg-gray-100">
-    <p>© {{ year }} Ferran Pamiès Flack</p>
-    <p>{{ email }}</p>
+  <div class="w-full p-5 bg-gray-100 justify-end flex font-light text-gray-700">
+    <p class="">© {{ year }} Ferran Pamiès Flack</p>
+    <!-- <p>{{ email }}</p>
     <p>Tel: {{ phone }}</p>
     <a
       :href="`https://instagram.com/${instagram}`"
@@ -11,7 +11,7 @@
     >
       <InstagramIcon :color="isHovered ? '#FFFFFF' : ''" />
     </a>
-    <p>{{ city }}</p>
+    <p>{{ city }}</p> -->
   </div>
 </template>
 <script lang="ts">

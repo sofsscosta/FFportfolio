@@ -1,12 +1,21 @@
 <template>
   <div>
-    <Banner :image-source="bannerImage" section="about"/>
-    <p>{{ email }}</p>
-    <p>Tel: {{ phone }}</p>
-    <a :href="`https://instagram.com/${instagram}`" target="_blank">
-      <InstagramIcon />
-    </a>
-    <p>{{ city }}</p>
+    <Banner :image-source="bannerImage" section="ferran flack"/>
+    <section class="font-light text-gray-500 mb-28 flex flex-col w-full items-center mt-20 max-w-7xl mx-auto">
+      <p class="text-2xl font-extralight tracking-wide">{{ description }}</p>
+      <section class="flex flex-row justify-between mx-auto mt-20 items-center">
+        <img :src="image" alt="" :style="{width: '30rem'}" class="mr-20">
+        <section class="text-xl font-thin">
+          <h3 class="text-3xl mb-5">Contact me!</h3>
+          <p class="mb-2">{{ email }}</p>
+          <p class="mb-2">Tel: {{ phone }}</p>
+          <a :href="`https://instagram.com/${instagram}`" target="_blank" class="mb-2">
+            <InstagramIcon color="rgb(150, 150, 150)"/>
+          </a>
+          <p class="mt-2">{{ city }}</p>
+        </section>
+      </section>
+    </section>
   </div>
 </template>
 
@@ -14,9 +23,6 @@
 import Vue from 'vue'
 import InstagramIcon from "~/assets/InstagramIcon.vue";
 import Banner from '~/components/Images/Banner.vue'
-import firebase from "firebase/app";
-import "firebase/database";
-import "firebase/storage";
 
 export default Vue.extend({
   components: {
@@ -31,30 +37,27 @@ export default Vue.extend({
       city: "",
       instagram: "",
       year: 0,
+      description: '',
+      image: ''
     };
   },
   async fetch({store}) {
     try {
       !store.getters['getBanner']('home').bannerUrl && await store.dispatch('getBanner', 'home')
+      await store.dispatch('fetchAbout')
     } catch (error) {
       console.error(error);
     }
   },
   async created() {
       this.bannerImage = this.$store.getters['getBanner']('home').bannerUrl
-      const db = firebase.firestore();
-      const snapshot = await db
-        .collection("about")
-        .doc("RCNULCtvbhhssWzzZkTI")
-        .get();
-      const data = snapshot.data();
-      if (data) {
-        this.email = data.contacts.email;
-        this.phone = data.contacts.phone;
-        this.city = data.contacts.city;
-        this.instagram = data.contacts.instagram;
-      }
-      this.year = new Date().getFullYear();
+      const { email, phone, city, instagram } = this.$store.state.about.contacts
+        this.email = email;
+        this.phone = phone;
+        this.city = city;
+        this.instagram = instagram;
+        this.description = this.$store.state.about.description;
+        this.image = this.$store.state.about.image;
   }
 });
 </script>
