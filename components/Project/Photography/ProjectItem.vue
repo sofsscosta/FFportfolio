@@ -20,7 +20,8 @@
         </div>
       </header>
       <section class="flex flex-row mt-5 md:mt-10 justify-between">
-        <img v-for="(image, index) in images_preview" :src="image" :key="index" class="w-1/3 mr-2 object-cover">
+        <img class="hidden md:block w-1/3 mr-2 object-cover" v-for="(image, index) in images_preview" :src="image" :key="index">
+        <Slider class="md:hidden" :slides="images_preview"/>
       </section>
     </nuxt-link>
   </div>
@@ -29,9 +30,10 @@
 import Vue from "vue";
 //@ts-ignore
 import Tag from '~/components/Project/Tag.vue'
+import Slider from '~/components/Slider/Slider.vue'
 
 export default Vue.extend({
-  components: { Tag },
+  components: { Tag, Slider },
   props: { 
     project: {
       required: true,
