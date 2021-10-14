@@ -47,6 +47,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/robots',
     '@nuxtjs/dotenv',
     [
       '@nuxtjs/firebase',
@@ -96,6 +97,10 @@ export default {
   formulate: {
     configPath: '~/formulate.config.js'
   },
+  robots: {
+    UserAgent: '*',
+    Disallow: '/admin',
+  }
   // TO SEE ON MOBILE LIVE
   // server: {     
   //   port: 8000, // default: 3000     
