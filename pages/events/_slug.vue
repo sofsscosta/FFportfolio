@@ -9,6 +9,7 @@
             ></v-zoomer-gallery>
         </Modal>
         <div class="text-center font-thin mt-10 max-w-4xl xl:max-w-6xl mx-auto justify-center mb-10 md:mb-20">
+        <button @click.prevent="goBack" class="float-left ml-4 md:ml-0 font-light">←</button>
             <h1 class="text-3xl md:text-5xl mx-3 md:mx-0">{{title}}</h1>
             <h3 class="text-xl md:text-2xl mt-3 md:mt-5 mx-3 md:mx-0">{{subtitle}}</h3>
             <client-only>
@@ -75,6 +76,9 @@ export default Vue.extend({
                 this.selectedImage = imageIndex
                 this.showModal = true
             }
+        },
+        goBack() {
+            this.$router.push('/' + this.$route.path.split('/')[1])
         }
     }
 })

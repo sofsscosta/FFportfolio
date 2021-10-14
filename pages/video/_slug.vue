@@ -1,6 +1,7 @@
 <template>
     <div class="relative">
         <div class="text-center font-thin mt-6 md:mt-10 max-w-4xl xl:max-w-6xl mx-auto justify-center mb-10 md:mb-20">
+            <button @click.prevent="goBack" class="float-left ml-4 md:ml-0 font-light">←</button>
             <h1 class="text-3xl md:text-5xl mx-3 md:mx-0">{{title}}</h1>
             <h3 class="text-xl md:text-2xl mt-3 md:mt-5 mx-3 md:mx-0">{{subtitle}}</h3>
             <div :inner-html.prop="embed" class="w-full mt-6 md:mt-16 mx-auto flex justify-center mb-24"/>
@@ -53,6 +54,11 @@ export default Vue.extend({
         this.subtitle = subtitle
         this.title = title
         this.tags = tags
+    },
+    methods: {
+        goBack() {
+            this.$router.push('/' + this.$route.path.split('/')[1])
+        }
     }
 })
 </script>
