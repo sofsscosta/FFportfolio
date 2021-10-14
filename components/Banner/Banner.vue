@@ -2,9 +2,12 @@
     <div class="w-full relative" :style="{ height: getHeight + 'px' }" @mouseenter="toggleHover(true)" @mouseleave="toggleHover(false)">
         <transition name="fade">
             <div v-if="isHovered" class="absolute h-full w-full" :style="{ backgroundColor: 'rgba(48, 48, 48, 0.384)' }">
-                <p class="text-white text-8xl font-thin w-full h-full text-center flex justify-center items-center">{{section.toUpperCase()}}</p>
+                <p class="text-white text-7xl md:text-8xl font-thin w-full h-full text-center flex justify-center items-center">{{section.toUpperCase()}}</p>
             </div>
         </transition>
+        <div class="md:hidden absolute h-full w-full" :style="{ backgroundColor: 'rgba(48, 48, 48, 0.384)' }">
+            <p class="text-white text-7xl md:text-8xl font-thin w-full h-full text-center flex justify-center items-center">{{section.toUpperCase()}}</p>
+        </div>
         <img :src="imageSource" class="w-full object-cover" :style="{ height: getHeight + 'px' }" />
     </div> 
 </template>

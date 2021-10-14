@@ -2,7 +2,7 @@
   <div>
     <Banner :image-source="bannerImage" section="ferran flack"/>
     <section class="font-light text-gray-500 mb-16 flex flex-col w-full items-center mt-20 max-w-7xl mx-auto">
-      <p class="text-lg md:text-2xl font-extralight tracking-wide mx-3 md:mx-0">{{ description }}</p>
+      <p class="text-sm md:text-2xl font-extralight tracking-wide mx-6 md:mx-0">{{ description }}</p>
       <section class="flex flex-col md:flex-row justify-between mx-auto mt-20 items-center">
         <img :src="image" alt="" :style="{width: '30rem'}" class="px-6 md:px-0 md:mr-20">
         <Contact :contact="{email, phone, city, instagram, year}" class="mt-10 md:mt-0"/>
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Banner from '~/components/Images/Banner.vue'
+import Banner from '~/components/Banner/Banner.vue'
 import ReviewItem from '~/components/Reviews/ReviewItem.vue'
 import Contact from '~/components/Contact/Contact.vue'
 

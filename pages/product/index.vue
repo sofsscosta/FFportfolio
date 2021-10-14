@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Banner from '~/components/Images/Banner.vue'
+import Banner from '~/components/Banner/Banner.vue'
 import ProjectItem from '~/components/Project/Photography/ProjectItem.vue'
 import { Project } from "~/types";
 
