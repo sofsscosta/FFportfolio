@@ -1,7 +1,7 @@
 <template>
   <div>
     <Banner :image-source="bannerImage" section="product"/>
-    <div class="m-28">
+    <div class="m-4 mt-20 md:mt-0 md:m-28">
       <ProjectItem v-for="project in projects" :project="project" :key="project.id"/>
     </div>
   </div>

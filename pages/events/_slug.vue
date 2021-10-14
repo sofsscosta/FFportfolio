@@ -16,7 +16,7 @@
             </client-only>
             <div class="h-px bg-gray-300 w-full mb-14 md:mb-32"/>
             <div class="flex flex-col mt-8 justify-between text-left mb-5 mx-4 md:mx-0">
-                <div v-if="tags && tags.length" class="flex flex-row mb-8">
+                <div v-if="tags && tags.length" class="flex flex-row mb-5 md:mb-8">
                     <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="mr-2"/>
                 </div>
                 <p v-if="date">Date: {{date}}</p>
