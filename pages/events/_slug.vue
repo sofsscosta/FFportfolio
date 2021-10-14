@@ -8,20 +8,20 @@
                 v-model="selectedImage"
             ></v-zoomer-gallery>
         </Modal>
-        <div class="text-center font-thin mt-10 max-w-6xl mx-auto justify-center mb-20">
-            <h1 class="text-5xl">{{title}}</h1>
-            <h3 class="text-2xl mt-5">{{subtitle}}</h3>
+        <div class="text-center font-thin mt-10 max-w-6xl mx-auto justify-center mb-10 md:mb-20">
+            <h1 class="text-3xl md:text-5xl mx-3 md:mx-0">{{title}}</h1>
+            <h3 class="text-xl md:text-2xl mt-3 md:mt-5 mx-3 md:mx-0">{{subtitle}}</h3>
             <client-only>
-                <Grid :items="images" @showModal="handleShowModal" class="mt-20 mb-32"/>
+                <Grid :items="images" @showModal="handleShowModal" class="mt-10 md:mt-20 mb-20 md:mb-32"/>
             </client-only>
-            <div class="h-px bg-gray-300 w-full mb-32"/>
-            <div class="flex flex-col mt-8 justify-between text-left mb-5">
-                <div class="flex flex-row mb-8">
+            <div class="h-px bg-gray-300 w-full mb-14 md:mb-32"/>
+            <div class="flex flex-col mt-8 justify-between text-left mb-5 mx-4 md:mx-0">
+                <div v-if="tags && tags.length" class="flex flex-row mb-8">
                     <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="mr-2"/>
                 </div>
-                <p>Date: {{date}}</p>
+                <p v-if="date">Date: {{date}}</p>
             </div>
-            <p class="text-left text-xl my-5 tracking-wide mb-52">
+            <p v-if="description" class="text-left text-lg md:text-xl my-5 tracking-wide mb-28 md:mb-52 mx-4 md:mx-0">
                 {{description}}
             </p>
         </div>

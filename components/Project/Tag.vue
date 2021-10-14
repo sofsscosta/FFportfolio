@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-200 text-center rounded-full p-1 px-2 text-gray-500">
+    <div class="bg-gray-200 text-center rounded-full p-1 px-2 text-gray-500 text-xs md:text-base">
         {{ tag }}
     </div>
 </template>
