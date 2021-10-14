@@ -1,7 +1,7 @@
 <template>
   <div>
     <Banner :image-source="bannerImage" section="ferran flack"/>
-    <section class="font-light text-gray-500 mb-28 flex flex-col w-full items-center mt-20 max-w-7xl mx-auto">
+    <section class="font-light text-gray-500 mb-16 flex flex-col w-full items-center mt-20 max-w-7xl mx-auto">
       <p class="text-2xl font-extralight tracking-wide">{{ description }}</p>
       <section class="flex flex-row justify-between mx-auto mt-20 items-center">
         <img :src="image" alt="" :style="{width: '30rem'}" class="mr-20">
@@ -16,8 +16,9 @@
         </section>
       </section>
     </section>
-    <section class="text-gray-500">
-      <p class="text-6xl font-thin text-center mb-16">REVIEWS</p>
+    <div class="h-px w-full bg-gray-300 mt-20 mb-16"/>
+    <section class="text-gray-500 mb-20">
+      <!-- <p class="text-6xl font-thin text-center mb-16">REVIEWS</p> -->
       <ReviewItem v-for="(review, index) in reviews" :key="index" :review="review"/>
     </section>
   </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="mx-10 text-center mb-16 flex flex-col items-center">
-        <p class="text-xl mb-4">{{text}}</p>
+        <p class="text-xl mb-4 max-w-5xl">{{text}}</p>
         <p class="text-sm mb-3">- {{author}}</p>
         <nuxt-link v-if="link" :to="link"><p class="bg-gray-100 rounded-full px-3 py-1 font-thin">See project</p></nuxt-link>
     </div>

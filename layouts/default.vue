@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <nuxt :style="{paddingTop: headerHeight}"/>
+    <nuxt :style="{paddingTop: headerHeight}" class="min-h-screen"/>
     <Footer />
   </div>
 </template>

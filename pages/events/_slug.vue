@@ -2,27 +2,28 @@
     <div class="relative">
         <Modal v-if="showModal" @hideModal="handleShowModal(undefined, true)">
             <v-zoomer-gallery
-                style="width: 100vw; height: 100vh; background-color: rgba(78, 78, 78, 0.3);"
+                style="width: 100vw; height: 92vh; background-color: rgba(78, 78, 78, 0.3);"
                 :list="images"
                 :value="5"
                 v-model="selectedImage"
             ></v-zoomer-gallery>
         </Modal>
-        <div class="text-center font-thin mt-10 max-w-6xl mx-auto justify-center">
+        <div class="text-center font-thin mt-10 max-w-6xl mx-auto justify-center mb-20">
             <h1 class="text-5xl">{{title}}</h1>
             <h3 class="text-2xl mt-5">{{subtitle}}</h3>
-            <div class="flex flex-row mt-8 justify-between items-center">
-                <p>Date: {{date}}</p>
-                <div class="flex flex-row">
-                    <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="ml-2"/>
+            <client-only>
+                <Grid :items="images" @showModal="handleShowModal" class="mt-20 mb-32"/>
+            </client-only>
+            <div class="h-px bg-gray-300 w-full mb-32"/>
+            <div class="flex flex-col mt-8 justify-between text-left mb-5">
+                <div class="flex flex-row mb-8">
+                    <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="mr-2"/>
                 </div>
+                <p>Date: {{date}}</p>
             </div>
-            <p class="text-left text-xl my-5 tracking-wide">
+            <p class="text-left text-xl my-5 tracking-wide mb-52">
                 {{description}}
             </p>
-            <client-only>
-                <Grid :items="images" @showModal="handleShowModal" class="mb-20"/>
-            </client-only>
         </div>
     </div>
 </template>

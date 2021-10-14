@@ -3,15 +3,15 @@
         <div class="text-center font-thin mt-10 max-w-xl mx-auto justify-center">
             <h1 class="text-5xl">{{title}}</h1>
             <h3 class="text-2xl mt-5">{{subtitle}}</h3>
-            <div class="flex flex-row mt-8 justify-between items-center">
-                <p>Date: {{date}}</p>
-                <div class="flex flex-row">
-                    <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="ml-2"/>
-                </div>
-            </div>
             <div :inner-html.prop="embed" class="w-full mt-10 mx-auto flex justify-center mb-24"/>
         </div>
-        <p class="text-left text-xl my-5 tracking-wide font-thin max-w-5xl mx-auto justify-center mb-28">
+        <div class="flex flex-row my-8 justify-between items-center font-thin max-w-5xl mx-auto">
+            <p>Date: {{date}}</p>
+            <div class="flex flex-row">
+                <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="ml-2"/>
+            </div>
+        </div>
+        <p v-if="description" class="text-left text-xl my-5 tracking-wide font-thin max-w-5xl mx-auto justify-center mb-28">
             {{description}}
         </p>
     </div>
@@ -52,6 +52,7 @@ export default Vue.extend({
         this.subtitle = subtitle
         this.title = title
         this.tags = tags
+        console.log('description',this.description)
     }
 })
 </script>
