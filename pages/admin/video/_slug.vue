@@ -6,7 +6,7 @@
             <FormulateInput type="text" label="Subtitle" name="subtitle" placeholder="Subtitle"/>
             <FormulateInput type="textarea" label="Description" name="description" placeholder="Description" input-class="h-56"/>
             <FormulateInput type="text" label="Date" name="date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
-            <FormulateInput type="textarea" label="Embed video info" name="embed" placeholder="Embed" helper="This is the code you get from youtube/vimeo/other so we can display the video :)" input-class="h-32"/>
+            <FormulateInput type="textarea" label="Embed video info" name="embed" placeholder="Embed" helper="This is the code you get from youtube/vimeo/other so we can display the video :)" input-class="h-32" validation="required"/>
             <FormulateInput
                 type="image"
                 name="image_preview"
@@ -78,7 +78,7 @@ export default Vue.extend({
         const projectDoc = project.data()
         if (!projectDoc) return
         const image_preview = { url: projectDoc.image_preview }
-        const tags = projectDoc.tags.map((el: any) => { return {tag: el} })
+        const tags = projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
         //@ts-ignore
         this.project = { ...projectDoc, tags, image_preview, id }
     },

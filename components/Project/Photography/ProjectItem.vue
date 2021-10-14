@@ -10,7 +10,7 @@
             {{ subtitle }}
           </p>
         </div>
-        <div class="flex flex-col md:items-end">
+        <div class="flex flex-col md:items-end justify-end">
           <p v-if="date" class="mt-2 md:mt-0 mb-2 md:mb-3 text-xs md_text-base">
             {{ date }}
           </p>
