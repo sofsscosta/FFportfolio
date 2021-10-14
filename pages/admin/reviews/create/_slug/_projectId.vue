@@ -10,7 +10,7 @@
         </p>
         <FormulateForm @submit="addReview" class="max-w-2xl" v-model="review">
             <FormulateInput type="text" label="Author" name="author" placeholder="Name of reviewer" validation="required"/>
-            <FormulateInput type="text" label="Text" name="text" placeholder="Text - what did they say?" validation="required"/>
+            <FormulateInput type="textarea" label="Text" name="text" placeholder="Text - what did they say?" validation="required"/>
             <div v-if="review.slug" class=" mb-8"> Path to project this review relates to: <span class="font-bold">{{ review.slug }}</span></div>
             <nuxt-link v-if="review.slug" :to="`/admin/${collection}/${originalProjectId}`" class="mt-10 bg-gray-200 rounded-full px-3 py-2"> See related project </nuxt-link>
             <div v-if="!review.link">This review is not associated with any project.</div>

@@ -3,7 +3,7 @@
         <p class="text-5xl mt-10 mb-12 font-thin">Update review <span v-if="title"><span class="font-light">{{title.toUpperCase()}}</span> project</span></p>
         <FormulateForm @submit="editReview" class="max-w-2xl" v-model="review">
             <FormulateInput type="text" label="Author" name="author" placeholder="Name of reviewer" validation="required"/>
-            <FormulateInput type="text" label="Text" name="text" placeholder="Text - what did they say?" validation="required"/>
+            <FormulateInput type="textarea" label="Text" name="text" placeholder="Text - what did they say?" validation="required"/>
             <div v-if="review.link" class=" mb-8"> Path to project this review relates to: <span class="font-bold">{{ review.link }}</span></div>
             <nuxt-link v-if="review.link" :to="`/admin/${collection}/${originalProjectId}`" class="mt-10 bg-gray-200 rounded-full px-3 py-2"> See related project </nuxt-link>
             <div v-if="!review.link">This review is not associated with any project.</div>

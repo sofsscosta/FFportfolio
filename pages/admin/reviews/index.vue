@@ -88,7 +88,6 @@ export default Vue.extend({
                 review.project = projectInfo
                 return review
             }))
-            console.log('this.reviews after setting', this.reviews)
         }
     }
 })

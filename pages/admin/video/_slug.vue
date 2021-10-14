@@ -76,19 +76,16 @@ export default Vue.extend({
 
         const id = project.id
         const projectDoc = project.data()
-        console.log('projectDoc', projectDoc)
         if (!projectDoc) return
         const image_preview = { url: projectDoc.image_preview }
         const tags = projectDoc.tags.map((el: any) => { return {tag: el} })
         //@ts-ignore
         this.project = { ...projectDoc, tags, image_preview, id }
-        console.log('project', this.project)
     },
     methods: {
         async updateProject(event: any) {
             try {
                 this.isLoading = true
-                console.log(event.image_preview)
                 const preProcessedProject = {
                     date: event.date,
                     description: event.description,

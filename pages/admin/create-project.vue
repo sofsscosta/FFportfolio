@@ -90,8 +90,6 @@ export default Vue.extend({
     methods: {
         async createProject(event: any) {
             try {
-                console.log(event.images_preview)
-                console.log(event.images)
                 this.isLoading = true
                 const preProcesedProject = {
                     date: event.date,

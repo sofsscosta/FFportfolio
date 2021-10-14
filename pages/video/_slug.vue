@@ -52,7 +52,6 @@ export default Vue.extend({
         this.subtitle = subtitle
         this.title = title
         this.tags = tags
-        console.log('description',this.description)
     }
 })
 </script>

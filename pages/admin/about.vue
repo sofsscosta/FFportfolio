@@ -57,7 +57,6 @@ export default Vue.extend({
         async updateAbout(event: any) {
             try {
                 this.isLoading = true
-                console.log('event',event)
                 const processedAbout = { contacts: event.contacts[0], description: event.description }
                 await firebase.firestore().collection('about').doc('RCNULCtvbhhssWzzZkTI').update(processedAbout)
                 this.isLoading = false
