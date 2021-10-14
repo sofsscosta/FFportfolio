@@ -1,22 +1,20 @@
-export default async function({ route, redirect, store }) {
-    if (route.path.match(/admin/gi)) {
-      // if (localStorage.getItem('authToken'))
-      // console.log()
-      // console.log(localStorage.getItem('authToken'))
-      // const isLogged = await isLogged()
-      if (!store.state.isLogged) {
-        redirect('/admin/login');
+import { getUserFromCookie } from '~/utils/firebaseUtils'
+
+export default async function({ app, route, redirect, store, req }) {
+  if (route.path.match(/admin/gi)) {
+    if (process.server) {
+      const user = getUserFromCookie(req)
+      if (!user) {
+        redirect('/admin/login')
+      }
+    } 
+    else {
+      var user = store.state.isLogged
+      console.log('user in middleware', user)
+      if (!user) {
+        redirect('/admin/login')
       }
     }
-  
-    // switch (route.path) {
-    //   case '/profile':
-    //     if (!store.state.account.loggedIn) {
-    //       redirect('/login');
-    //     }
-    //     break;
-    //   default:
-    //     break;
-    // }
   }
+}
   

@@ -1,14 +1,18 @@
 import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
 import firebase from "firebase/app";
+//@ts-ignore
+import Cookies from 'js-cookie'
 import "firebase/auth";
 import "firebase/firestore";
 import { About, Banner, Project, Review, RootState, Sections } from "~/types";
+import { getUserFromCookie } from "~/utils/firebaseUtils";
 
 export const state = () => ({
     isLogged: false,
     error: {
         user: ''
     },
+    banners: [],
     events: {
         projects: [],
         selectedProject: {
@@ -76,53 +80,88 @@ export const state = () => ({
         },
         description: '',
         image: ''
-    }
+    },
+    order: []
 })
 
 export const actions: ActionTree<RootState, RootState> = {
-    async nuxtServerInit({ commit, dispatch }) {
-        const isUserLogged = await firebase.auth().currentUser
-        this.commit('SET_LOGGED_STATE', !!isUserLogged)
+    async nuxtServerInit({ commit, dispatch }, ctx: any) {
+        const user = getUserFromCookie(ctx.req)
+        this.commit('SET_LOGGED_STATE', !!user)
+
         const allCollections = await firebase.firestore().collection('banners').get()
         const banners: Banner[] = []
         allCollections.forEach(doc => banners.push({ section: doc.id, bannerUrl: '' }))
         commit('SET_SECTIONS', banners)
+
         await dispatch('fetchReviews')
         await dispatch('fetchAbout')
     },
-    async logIn({ commit }, {email, password}: {email: string, password: string}) {
+
+    async onAuthStateChanged({ commit }, { authUser }) {
+        if (!authUser) {
+          Cookies.remove('access_token')
+          return
+        }
+        if (authUser && authUser.getIdToken) {
+          try {
+            const idToken = await authUser.getIdToken(true)
+            Cookies.set('access_token', idToken)
+          } catch (error) {
+            console.error(error)
+          }
+        }
+        this.commit('SET_LOGGED_STATE', !!authUser)
+    },
+
+    async logIn({ commit, dispatch }, {email, password}: {email: string, password: string}) {
         try {
-            await firebase
+          const { user } = await firebase
             .auth()
             .signInWithEmailAndPassword(email, password);
-          const token = await firebase.auth().currentUser?.getIdToken()
-          if (process.client && token) localStorage.setItem('authToken', token)
+    
+          await dispatch('onAuthStateChanged', {
+            authUser: user,
+          })
+
           commit('SET_LOGGED_STATE', true)
         } catch(error) {
             commit('SET_USER_ERROR', error)
         }
     },
+
     async logout({ commit }) {
-        await firebase.auth().signOut
-        localStorage.removeItem('authToken')
-        this.$router.push('/admin/login')
+        await firebase.auth().signOut()
+        Cookies.remove('access_token')
         commit('SET_LOGGED_STATE', false)
+        this.$router.push('/admin/login')
     },
+
     async getBanner({ commit }, collection: string) {
         const home = await firebase.firestore().collection('banners').doc(collection).get()
         const image = home.data()?.url
         commit('SET_BANNER', {section: collection, bannerUrl: image})
     },
+
     async getSectionItems ({ commit }, section: string) {
         try {
             const snapshots = await firebase.firestore().collection(section).get()
             const items: any[] = []
-            snapshots.forEach(doc => items.push({...doc.data(), id: doc.id}))
+            const order: string[] = []
+            snapshots.forEach(async doc => {
+                items.push({...doc.data(), id: doc.id})
+                order.push(doc.id.toString())
+            })
+            const finalOrder = await firebase.firestore().collection('order').doc(section).get()
+            // await firebase.firestore().collection('order').doc(section).set({order})
+            // const newOrder = await firebase.firestore().collection('order').doc(section).get()
+            commit('SET_ORDER', {section, order: finalOrder.data()})
             commit('SET_PROJECTS', {section, items})
         } catch(error) {
-            console.log(error)
+            console.error(error)
         }
     },
+
     async getProject({ commit }, {section, slug}: {section: string; slug: string}) {
         try {
             const processedSlug = `/${section}/${slug}`
@@ -132,9 +171,10 @@ export const actions: ActionTree<RootState, RootState> = {
             const project = {...restOfProject, id}
             commit('SET_PROJECT', {section, project})
         } catch(error) {
-            console.log(error)
+            console.error(error)
         }
     },
+
     async fetchReviews({ commit }) {
         try {
             const unprocessedProject = await firebase.firestore().collection('reviews').get()
@@ -145,9 +185,10 @@ export const actions: ActionTree<RootState, RootState> = {
             })
             commit('SET_REVIEWS', reviews)
         } catch(error) {
-            console.log(error)
+            console.error(error)
         }
     },
+
     async fetchAbout({ commit }) {
         try {
             const snapshot = await firebase.firestore()
@@ -157,7 +198,7 @@ export const actions: ActionTree<RootState, RootState> = {
             const data = snapshot.data()
             commit('SET_ABOUT', data)
         } catch(error) {
-            console.log(error)
+            console.error(error)
         }
     }
 }
@@ -188,6 +229,9 @@ export const mutations: MutationTree<RootState> = {
     },
     SET_ABOUT(state, about: About) {
         state.about = about
+    },
+    SET_ORDER(state, { section, order }: { section: Sections; order: string[]}) {
+        state.order[section] = order
     }
 }
 

@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showSubMenu" class="h-40 w-full flex items-end justify-end" @click.prevent="toggleSubMenu(!showSubMenu)">
+    <div v-if="showSubMenu" class="h-40 w-full flex items-end justify-end" @click.prevent="toggleSubMenu(false)">
       <div class="bg-white h-40 flex flex-col" style="width: 8rem; margin-right: 5rem;">
           <nuxt-link
             v-for="(child, index) in photography.children" :key="index"

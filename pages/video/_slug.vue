@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <div class="text-center font-thin mt-6 md:mt-10 max-w-6xl mx-auto justify-center mb-10 md:mb-20">
+        <div class="text-center font-thin mt-6 md:mt-10 max-w-4xl xl:max-w-6xl mx-auto justify-center mb-10 md:mb-20">
             <h1 class="text-3xl md:text-5xl mx-3 md:mx-0">{{title}}</h1>
             <h3 class="text-xl md:text-2xl mt-3 md:mt-5 mx-3 md:mx-0">{{subtitle}}</h3>
             <div :inner-html.prop="embed" class="w-full mt-6 md:mt-16 mx-auto flex justify-center mb-24"/>
