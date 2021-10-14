@@ -28,7 +28,7 @@
 <script>
 import Swiper, { Navigation, Pagination } from 'swiper'
 import 'swiper/swiper-bundle.css'
-
+// import Image from '../../assets/ChevronRight.vue'
 Swiper.use([ Navigation, Pagination ])
 
 export default {
@@ -64,8 +64,27 @@ export default {
 }
 .swiper-button-next {
     color: rgb(148, 148, 148);
+    background-image: url(../../assets/chevron-right.png);
+    background-size: cover;
+    width: 30px;
+    height: 30px;
 }
-/* .swiper-button-next::after {
-  display: none
-} */
+.swiper-button-next::after {
+  display:none
+}
+.swiper-button-prev {
+    color: rgb(148, 148, 148);
+    background: url(../../assets/chevron-right.png);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+}
+.swiper-button-prev::after {
+  display:none
+}
 </style>
