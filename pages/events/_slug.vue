@@ -21,7 +21,7 @@
                 {{description}}
             </p>
             <client-only>
-                <Grid :items="images" @showModal="handleShowModal"/>
+                <Grid :items="images" @showModal="handleShowModal" class="mb-20"/>
             </client-only>
         </div>
     </div>
@@ -51,10 +51,12 @@ export default Vue.extend({
     },
     async fetch({store, route}) {
         const slug = route.params.slug
-        await store.dispatch('getProject', { section: 'events', slug })
+        const section = route.path.split('/')[1]
+        await store.dispatch('getProject', { section, slug })
     },
     created() {
-        const { id, date, description, images, images_preview, slug, subtitle, title, tags } = this.$store.state.events.selectedProject
+        const section = this.$route.path.split('/')[1]
+        const { id, date, description, images, images_preview, slug, subtitle, title, tags } = this.$store.state[section].selectedProject
         this.id = id
         this.date = date
         this.description = description
