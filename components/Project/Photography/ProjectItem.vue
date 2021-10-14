@@ -14,7 +14,7 @@
           <p class="mb-3">
             {{ date }}
           </p>
-          <div class="flex flex-row">
+          <div v-if="tags && tags.length" class="flex flex-row">
             <Tag v-for="(tag, index) in tags" :key="index" :tag="tag" class="ml-2"/>
           </div>
         </div>

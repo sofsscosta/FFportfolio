@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <Modal v-if="showModal" @hideModal="handleShowModal(false)">
+        <Modal v-if="showModal" @hideModal="handleShowModal(undefined, true)">
             <v-zoomer-gallery
                 style="width: 100vw; height: 100vh; background-color: rgba(78, 78, 78, 0.3);"
                 :list="images"
@@ -68,9 +68,9 @@ export default Vue.extend({
         this.tags = tags
     },
     methods: {
-        handleShowModal(imageIndex: number | false) {
-            if (!imageIndex) this.showModal = false
-            else {
+        handleShowModal(imageIndex: number | undefined, hide = false) {
+            if (hide) this.showModal = false
+            else if (imageIndex !== undefined) {
                 this.selectedImage = imageIndex
                 this.showModal = true
             }
