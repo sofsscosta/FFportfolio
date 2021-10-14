@@ -16,6 +16,10 @@
         </section>
       </section>
     </section>
+    <section class="text-gray-500">
+      <p class="text-6xl font-thin text-center mb-16">REVIEWS</p>
+      <ReviewItem v-for="(review, index) in reviews" :key="index" :review="review"/>
+    </section>
   </div>
 </template>
 
@@ -23,11 +27,13 @@
 import Vue from 'vue'
 import InstagramIcon from "~/assets/InstagramIcon.vue";
 import Banner from '~/components/Images/Banner.vue'
+import ReviewItem from '~/components/Reviews/ReviewItem.vue'
 
 export default Vue.extend({
   components: {
     InstagramIcon,
-    Banner
+    Banner,
+    ReviewItem
   },
   data() {
     return {
@@ -38,13 +44,14 @@ export default Vue.extend({
       instagram: "",
       year: 0,
       description: '',
-      image: ''
+      image: '',
+      reviews: []
     };
   },
   async fetch({store}) {
     try {
       !store.getters['getBanner']('home').bannerUrl && await store.dispatch('getBanner', 'home')
-      await store.dispatch('fetchAbout')
+      !store.state.reviews && await store.dispatch('fetchReviews')
     } catch (error) {
       console.error(error);
     }
@@ -52,12 +59,13 @@ export default Vue.extend({
   async created() {
       this.bannerImage = this.$store.getters['getBanner']('home').bannerUrl
       const { email, phone, city, instagram } = this.$store.state.about.contacts
-        this.email = email;
-        this.phone = phone;
-        this.city = city;
-        this.instagram = instagram;
-        this.description = this.$store.state.about.description;
-        this.image = this.$store.state.about.image;
+      this.email = email;
+      this.phone = phone;
+      this.city = city;
+      this.instagram = instagram;
+      this.description = this.$store.state.about.description;
+      this.image = this.$store.state.about.image;
+      this.reviews = this.$store.state.reviews
   }
 });
 </script>
