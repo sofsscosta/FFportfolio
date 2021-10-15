@@ -1,7 +1,7 @@
 <template>
   <div>
     <Banner :image-source="bannerImage" section="fashion"/>
-    <div class="m-28">
+    <div class="m-4 mt-20 md:mt-28 md:m-28">
       <ProjectItem v-for="project in projects" :project="project" :key="project.id"/>
     </div>
   </div>
@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Banner from '~/components/Images/Banner.vue'
+import Banner from '~/components/Banner/Banner.vue'
 import ProjectItem from '~/components/Project/Photography/ProjectItem.vue'
 import { Project } from "~/types";
 

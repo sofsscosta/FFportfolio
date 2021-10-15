@@ -7,7 +7,15 @@ export interface RootState {
     fashion: Section,
     product: Section,
     reviews: Review[],
-    about: About
+    about: About,
+    order: Order
+}
+
+export interface Order {
+    events: string[];
+    fashion: string[];
+    product: string[];
+    video: string[];
 }
 
 // create an interface for section base that extends to video section or normal section
