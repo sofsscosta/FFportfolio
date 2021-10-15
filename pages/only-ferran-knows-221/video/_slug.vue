@@ -1,12 +1,12 @@
 <template>
     <section class="font-light text-gray-500 mb-20 flex flex-col w-full items-center">
-        <p class="text-5xl mt-10 mb-12 font-thin">New <span class="font-light"> VIDEO</span> project</p>
-        <FormulateForm @submit="createProject" class="max-w-2xl" v-model="project">
+        <!-- <p class="text-5xl mt-10 mb-12 font-thin">Edit <span class="font-light">{{project.name.toUpperCase()}}</span> project</p> -->
+        <FormulateForm @submit="updateProject" class="max-w-2xl" v-model="project">
             <FormulateInput type="text" label="Title" name="title" placeholder="Title" validation="required"/>
             <FormulateInput type="text" label="Subtitle" name="subtitle" placeholder="Subtitle"/>
             <FormulateInput type="textarea" label="Description" name="description" placeholder="Description" input-class="h-56"/>
             <FormulateInput type="text" label="Date" name="date" help="Please inser the date manually in the format you'd like to see displayed. Ex: Aug 2021 or 08/2021" placeholder="Date"/>
-            <FormulateInput type="textarea" label="Embed video info" name="embed" placeholder="Embed" helper="This is the code you get from youtube/vimeo/other so we can display the video :)" input-class="h-32"/>
+            <FormulateInput type="textarea" label="Embed video info" name="embed" placeholder="Embed" helper="This is the code you get from youtube/vimeo/other so we can display the video :)" input-class="h-32" validation="required"/>
             <FormulateInput
                 type="image"
                 name="image_preview"
@@ -15,6 +15,10 @@
                 validation="mime:image/jpeg,image/png,image/gif"
                 :uploader="uploadImage"
             />
+            <div v-if="project.image_preview && project.image_preview.url">
+                <p>Previous preview image</p>
+                <img :src="project.image_preview.url" alt="" class="h-28 mb-8">
+            </div>
              <FormulateInput
                 type="group"
                 name="tags"
@@ -30,9 +34,8 @@
             </FormulateInput>
             <FormulateInput 
                 type="submit" 
-                :label="isLoading ? 'LOADING...' : 'CREATE VIDEO PROJECT'" 
+                :label="isLoading ? 'LOADING...' : 'UPDATE PROJECT'" 
                 class="mt-10" 
-                :disabled="isLoading"
             />
         </FormulateForm>
     </section>
@@ -56,27 +59,45 @@ export default Vue.extend({
                 subtitle: '',
                 title: '',
                 tags: [],
+                id: ''
             },
-            section: '',
-            isLoading: false
+            isLoading: false,
+            section: ''
         }
     },
+    async created() {
+        const section = this.$route.path.split('/only-ferran-knows-221/')[1]?.split('/')[0]
+        if (!section) this.$router.push('/only-ferran-knows-221/error')
+        this.section = section
+
+        const projectId = this.$route.params.slug
+        const project = await firebase.firestore().collection(this.section).doc(projectId).get()//.where(firebase.firestore.FieldPath.documentId(), '==', projectId)
+        if (!project) this.$router.push('/only-ferran-knows-221/error')
+
+        const id = project.id
+        const projectDoc = project.data()
+        if (!projectDoc) return
+        const image_preview = { url: projectDoc.image_preview }
+        const tags = projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
+        //@ts-ignore
+        this.project = { ...projectDoc, tags, image_preview, id }
+    },
     methods: {
-        async createProject(event: any) {
+        async updateProject(event: any) {
             try {
                 this.isLoading = true
-                const preProcesedProject = {
+                const preProcessedProject = {
                     date: event.date,
                     description: event.description,
-                    slug: this.generateSlug(event.title),
+                    slug: this.project.slug,
                     subtitle: event.subtitle,
                     title: event.title,
-                    tags: this.processTags(event.tags),
-                    image_preview: event.image_preview[0].url
+                    tags: event.tags.length && this.processTags(event.tags),
+                    embed: event.embed,
+                    image_preview: event.image_preview.url || event.image_preview[0]?.url
                 }
-                const newProject = await firebase.firestore().collection('video').add(preProcesedProject)   
+                await firebase.firestore().collection(this.section).doc(this.project.id).update(preProcessedProject)
                 this.isLoading = false
-                this.$router.push(`/admin/video/${newProject.id}`)
             } catch(error) {
                 this.isLoading = false
                 console.log(error)
@@ -111,7 +132,7 @@ export default Vue.extend({
             return tags.filter(tag => tag.tag).map(el => el.tag)
         },
         generateSlug(title:string) {
-            return `/video/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
+            return `/${this.section}/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
         }
     }
 })

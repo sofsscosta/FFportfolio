@@ -5,7 +5,7 @@
             <FormulateInput type="text" label="Author" name="author" placeholder="Name of reviewer" validation="required"/>
             <FormulateInput type="textarea" label="Text" name="text" placeholder="Text - what did they say?" validation="required"/>
             <div v-if="review.link" class=" mb-8"> Path to project this review relates to: <span class="font-bold">{{ review.link }}</span></div>
-            <nuxt-link v-if="review.link" :to="`/admin/${collection}/${originalProjectId}`" class="mt-10 bg-gray-200 rounded-full px-3 py-2"> See related project </nuxt-link>
+            <nuxt-link v-if="review.link" :to="`/only-ferran-knows-221/${collection}/${originalProjectId}`" class="mt-10 bg-gray-200 rounded-full px-3 py-2"> See related project </nuxt-link>
             <div v-if="!review.link">This review is not associated with any project.</div>
             <FormulateInput 
                 type="submit" 
@@ -37,14 +37,14 @@ export default Vue.extend({
         }
     },
     async created() {
-        // Path format: /admin/reviews/edit/:reviewId
-        const id = this.$route.path.split('/admin/reviews/edit/')[1]
-        if (!id) this.$router.push('/admin/error')
+        // Path format: /only-ferran-knows-221/reviews/edit/:reviewId
+        const id = this.$route.path.split('/only-ferran-knows-221/reviews/edit/')[1]
+        if (!id) this.$router.push('/only-ferran-knows-221/error')
         this.review.id = id
 
         const unprocessedReview = await firebase.firestore().collection('reviews').doc(id).get()
         const review = unprocessedReview.data()
-        if (!review) this.$router.push('/admin/error')
+        if (!review) this.$router.push('/only-ferran-knows-221/error')
         //@ts-ignore
         this.review = {...review, id: this.review.id}
 

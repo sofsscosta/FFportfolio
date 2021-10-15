@@ -16,11 +16,11 @@
             <li v-for="(review, index) in reviews" :key="index">
                 <client-only>
                     <div class="flex flex-row justify-between items-center py-5" v-if="review">
-                        <nuxt-link v-if="review && review.id" :to="`/admin/reviews/edit/${review.id}`">
+                        <nuxt-link v-if="review && review.id" :to="`/only-ferran-knows-221/reviews/edit/${review.id}`">
                             <p>{{review.author}}</p>
                         </nuxt-link>
                         <p v-if="review.text">{{truncate(review.text, 30)}}</p>
-                        <nuxt-link v-if="review.link" :to="`/admin${review.project && review.project.slug}`" :key="!!review.project + ' ' + index" class="flex items-center">
+                        <nuxt-link v-if="review.link" :to="`/only-ferran-knows-221${review.project && review.project.slug}`" :key="!!review.project + ' ' + index" class="flex items-center">
                             <p class="bg-gray-200 rounded-full px-3 py-2 w-min min-w-max">{{ review.project && review.project.title }}</p>
                         </nuxt-link>
                         <div v-else/>
@@ -33,7 +33,7 @@
             </li>
         </ul>
         </client-only>
-        <nuxt-link :to="`/admin/reviews/create`" name="Add">
+        <nuxt-link :to="`/only-ferran-knows-221/reviews/create`" name="Add">
             <p class="bg-gray-400 rounded-full px-3 py-2 text-white w-min min-w-max mb-8">Add review</p>
         </nuxt-link>
         <label for="Add">NOTE: this review will have no project associated. To create a review for a project please got to the section that project belongs to.</label>

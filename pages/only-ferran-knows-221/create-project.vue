@@ -83,7 +83,7 @@ export default Vue.extend({
         }
     },
     fetch() {
-        if(!this.$route.query.section || this.$route.query.section instanceof Array) this.$router.push('/admin/error')        
+        if(!this.$route.query.section || this.$route.query.section instanceof Array) this.$router.push('/only-ferran-knows-221/error')        
         //@ts-ignore
         this.section = this.$route.query.section
     },
@@ -104,7 +104,7 @@ export default Vue.extend({
                 const images = await this.uploadImages(event.images)
                 await firebase.firestore().collection(this.section).doc(newProject.id).update({...preProcesedProject, images_preview, images, id: newProject.id})
                 this.isLoading = false
-                this.$router.push(`/admin/${this.section}/${newProject.id}`)
+                this.$router.push(`/only-ferran-knows-221/${this.section}/${newProject.id}`)
             } catch(error) {
                 this.isLoading = false
                 console.log(error)

@@ -99,13 +99,13 @@ export default Vue.extend({
         }
     },
     async created() {
-        const section = this.$route.path.split('/admin/')[1]?.split('/')[0]
-        if (!section) this.$router.push('/admin/error')
+        const section = this.$route.path.split('/only-ferran-knows-221/')[1]?.split('/')[0]
+        if (!section) this.$router.push('/only-ferran-knows-221/error')
         this.section = section
 
         const projectId = this.$route.params.slug
         const project = await firebase.firestore().collection(this.section).doc(projectId).get()//.where(firebase.firestore.FieldPath.documentId(), '==', projectId)
-        if (!project) this.$router.push('/admin/error')
+        if (!project) this.$router.push('/only-ferran-knows-221/error')
 
         const id = project.id
         const projectDoc = project.data()

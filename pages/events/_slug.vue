@@ -51,13 +51,15 @@ export default Vue.extend({
             selectedImage: 0
         }
     },
-    async fetch({store, route}) {
+    async asyncData({store, route}) {
         const slug = route.params.slug
         const section = route.path.split('/')[1]
         await store.dispatch('getProject', { section, slug })
+        return
     },
     created() {
         const section = this.$route.path.split('/')[1]
+        if(!this.$store.state[section].selectedProject.id) console.log('is it in created still?')
         const { id, date, description, images, images_preview, slug, subtitle, title, tags } = this.$store.state[section].selectedProject
         this.id = id
         this.date = date

@@ -41,7 +41,7 @@ export default Vue.extend({
     async submitLogin() {
       try { 
         await this.$store.dispatch('logIn', { email: this.email, password: this.password })
-        return this.$router.push("/admin");
+        return this.$router.push("/only-ferran-knows-221");
       } catch (error) {
         this.error = error
       }

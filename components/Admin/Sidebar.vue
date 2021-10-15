@@ -5,7 +5,7 @@
                 <p class="h-full items-center flex justify-center">{{ separator.name }}</p>
                 <div class="h-px bg-gray-350 mx-2"/>
             </nuxt-link>
-            <nuxt-link @click.native="$store.dispatch('logout')" class="text-white text-center h-14 hover:bg-gray-350 rounded" to="/admin">
+            <nuxt-link @click.native="$store.dispatch('logout')" class="text-white text-center h-14 hover:bg-gray-350 rounded" to="process.env.ADMIN_PATH">
                 <p class="h-full items-center flex justify-center">Logout</p>
             </nuxt-link>
         </ul>
@@ -21,31 +21,31 @@ export default Vue.extend({
             separators: [
                 {
                     name: 'Banners',
-                    link: '/admin/banners'
+                    link: '/only-ferran-knows-221/banners'
                 }, 
                 {
                     name: 'Fashion',
-                    link: '/admin/fashion'
+                    link: '/only-ferran-knows-221/fashion'
                 }, 
                 {
                     name: 'Events',
-                    link: '/admin/events'
+                    link: '/only-ferran-knows-221/events'
                 }, 
                 {
                     name: 'Product',
-                    link: '/admin/product'
+                    link: '/only-ferran-knows-221/product'
                 }, 
                 {
                     name: 'Video',
-                    link: '/admin/video'
+                    link: '/only-ferran-knows-221/video'
                 }, 
                 {
                     name: 'Reviews',
-                    link: '/admin/reviews'
+                    link: '/only-ferran-knows-221/reviews'
                 }, 
                 {
                     name: 'About Me',
-                    link: '/admin/about'
+                    link: '/only-ferran-knows-221/about'
                 }, 
             ]
         }
