@@ -87,7 +87,7 @@ export const state = () => ({
 export const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }, ctx: any) {
         const user = getUserFromCookie(ctx.req)
-        this.commit('SET_LOGGED_STATE', !!user)
+        commit('SET_LOGGED_STATE', !!user)
 
         const allCollections = await firebase.firestore().collection('banners').get()
         const banners: Banner[] = []
@@ -111,7 +111,7 @@ export const actions: ActionTree<RootState, RootState> = {
             console.error(error)
           }
         }
-        this.commit('SET_LOGGED_STATE', !!authUser)
+        commit('SET_LOGGED_STATE', !!authUser)
     },
 
     async logIn({ commit, dispatch }, {email, password}: {email: string, password: string}) {
@@ -126,7 +126,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
           commit('SET_LOGGED_STATE', true)
         } catch(error) {
-            commit('SET_USER_ERROR', error)
+          commit('SET_USER_ERROR', error)
         }
     },
 
@@ -134,7 +134,7 @@ export const actions: ActionTree<RootState, RootState> = {
         await firebase.auth().signOut()
         Cookies.remove('access_token')
         commit('SET_LOGGED_STATE', false)
-        this.$router.push('/admin/login')
+        this.$router.push(`${process.env.ADMIN_PATH}/login`)
     },
 
     async getBanner({ commit }, collection: string) {
@@ -162,10 +162,11 @@ export const actions: ActionTree<RootState, RootState> = {
         }
     },
 
-    async getProject({ commit }, {section, slug}: {section: string; slug: string}) {
+    async getProject({ commit }, {section, slug}: {section: string; slug: string}): Promise<void> {
         try {
             const processedSlug = `/${section}/${slug}`
             const unprocessedProject = await firebase.firestore().collection(section).where('slug', '==', processedSlug).get()
+            if (!unprocessedProject.docs.length) return
             const id = unprocessedProject.docs[0].id
             const restOfProject = unprocessedProject.docs[0].data()
             const project = {...restOfProject, id}

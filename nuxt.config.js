@@ -99,8 +99,24 @@ export default {
   },
   robots: {
     UserAgent: '*',
-    Disallow: '/admin',
-  }
+    Disallow: `/${process.env.ADMIN_PATH}`,
+  },
+  // router: {
+  //   middleware: ['error'],
+  // },
+  hooks: {
+    render: {
+      errorMiddleware(app) {
+        app.use((error, _req, _res, next) => {
+          console.log(error)
+          if (error) {
+            console.log('app in error',app)
+          }
+          next(error);
+        });
+      },
+    },
+  },
   // TO SEE ON MOBILE LIVE
   // server: {     
   //   port: 8000, // default: 3000     

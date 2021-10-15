@@ -1,18 +1,18 @@
 import { getUserFromCookie } from '~/utils/firebaseUtils'
 
 export default async function({ app, route, redirect, store, req }) {
-  if (route.path.match(/admin/gi)) {
+  // CHECK HOW TO REGEX WITH VARIABLE
+  if (route.path.match(/only-ferran-knows-221/gi)) {
     if (process.server) {
       const user = getUserFromCookie(req)
       if (!user) {
-        redirect('/admin/login')
+        redirect('/only-ferran-knows-221/login')
       }
     } 
     else {
       var user = store.state.isLogged
-      console.log('user in middleware', user)
       if (!user) {
-        redirect('/admin/login')
+        redirect('/only-ferran-knows-221/login')
       }
     }
   }

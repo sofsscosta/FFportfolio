@@ -59,7 +59,7 @@ export default Vue.extend({
     },
     created() {
         const section = this.$route.path.split('/')[1]
-        if(!this.$store.state[section].selectedProject.id) console.log('is it in created still?')
+        !this.$store.state[section].selectedProject.slug && this.$router.push('/error')
         const { id, date, description, images, images_preview, slug, subtitle, title, tags } = this.$store.state[section].selectedProject
         this.id = id
         this.date = date

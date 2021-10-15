@@ -6,10 +6,10 @@
         <div class="swiper-slide">
             <img :src="slides[0]" alt="">
         </div>
-        <div class="swiper-slide">
+        <div v-if="slides[1]" class="swiper-slide">
             <img :src="slides[1]" alt="">
         </div>
-        <div class="swiper-slide">
+        <div v-if="slides[2]" class="swiper-slide">
             <img :src="slides[2]" alt="">
         </div>
       </div>

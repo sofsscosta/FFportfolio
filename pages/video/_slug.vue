@@ -44,6 +44,7 @@ export default Vue.extend({
         await store.dispatch('getProject', { section: 'video', slug })
     },
     created() {
+        !this.$store.state.video.selectedProject.slug && this.$router.push('/error')
         const { id, date, description, embed, image_preview, slug, subtitle, title, tags } = this.$store.state.video.selectedProject
         this.id = id
         this.date = date
