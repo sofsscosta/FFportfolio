@@ -1,90 +1,15 @@
-import { ActionTree, GetterTree, MutationTree } from "vuex/types/index";
+//@ts-ignore
+import { ActionTree } from "vuex/types/index";
+//@ts-ignore
 import firebase from "firebase/app";
 //@ts-ignore
 import Cookies from 'js-cookie'
 import "firebase/auth";
 import "firebase/firestore";
-import { About, Banner, Project, Review, RootState, Sections } from "~/types";
+import { Banner, Review, RootState } from "~/types";
 import { getUserFromCookie } from "~/utils/firebaseUtils";
 
-export const state = () => ({
-    isLogged: false,
-    error: {
-        user: ''
-    },
-    banners: [],
-    events: {
-        projects: [],
-        selectedProject: {
-            id: '',
-            date: '',
-            description: '',
-            images: [],
-            images_preview: [],
-            slug: '',
-            subtitle: '',
-            title: '',
-            tags: [],
-        }
-    },
-    video: {
-        projects: [],
-        selectedProject: {
-            id: '',
-            date: '',
-            description: '',
-            image_preview: [],
-            embed: '',
-            slug: '',
-            subtitle: '',
-            title: '',
-            tags: [],
-        }
-    },
-    fashion: {
-        projects: [],
-        selectedProject: {
-            id: '',
-            date: '',
-            description: '',
-            images: [],
-            images_preview: [],
-            slug: '',
-            subtitle: '',
-            title: '',
-            tags: [],
-        }
-    },
-    product: {
-        projects: [],
-        selectedProject: {
-            id: '',
-            date: '',
-            description: '',
-            images: [],
-            images_preview: [],
-            slug: '',
-            subtitle: '',
-            title: '',
-            tags: [],
-        }
-    },
-    reviews: [],
-    about: {
-        contacts: {
-            email: 'ferranpamiesflack44@gmail.com',
-            phone: '644426640',
-            city: 'Barcelona',
-            instagram: 'fpf_production',
-            year: 2021,
-        },
-        description: '',
-        image: ''
-    },
-    order: []
-})
-
-export const actions: ActionTree<RootState, RootState> = {
+const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }, ctx: any) {
         const user = getUserFromCookie(ctx.req)
         commit('SET_LOGGED_STATE', !!user)
@@ -204,40 +129,4 @@ export const actions: ActionTree<RootState, RootState> = {
     }
 }
 
-export const mutations: MutationTree<RootState> = {
-    SET_LOGGED_STATE(state, isLogged: false) {
-        state.isLogged = isLogged
-    },
-    SET_USER_ERROR(state, error: string) {
-        state.error.user = error
-    },
-    SET_SECTIONS(state, banners: any[]) {
-        state.banners = banners
-    },
-    SET_BANNER(state, {section, bannerUrl}: {section: string, bannerUrl: string}) {
-        const banner = state.banners.find(banner => banner.section == section)
-        if (!banner) return
-        banner.bannerUrl = bannerUrl
-    },
-    SET_PROJECTS(state, {section, items}: { section: Sections; items: Project[] }) {
-        state[section].projects = items
-    },
-    SET_PROJECT(state, { section, project }: { section: Sections; project: Project}) {
-        state[section].selectedProject = project
-    },
-    SET_REVIEWS(state, reviews: Review[]) {
-        state.reviews = reviews
-    },
-    SET_ABOUT(state, about: About) {
-        state.about = about
-    },
-    SET_ORDER(state, { section, order }: { section: Sections; order: string[]}) {
-        state.order[section] = order
-    }
-}
-
-export const getters: GetterTree<RootState, RootState> = {
-    getBanner: (state) => (section: string) => {
-        return state.banners.find(banner => banner.section == section)
-    }
-}
+export default actions
