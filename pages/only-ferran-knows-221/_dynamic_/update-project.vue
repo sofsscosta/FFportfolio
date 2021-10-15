@@ -78,6 +78,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -99,26 +100,31 @@ export default Vue.extend({
         }
     },
     async created() {
-        const section = this.$route.path.split('/only-ferran-knows-221/')[1]?.split('/')[0]
-        if (!section) this.$router.push('/only-ferran-knows-221/error')
-        this.section = section
-
-        const projectId = this.$route.params.slug
-        const project = await firebase.firestore().collection(this.section).doc(projectId).get()//.where(firebase.firestore.FieldPath.documentId(), '==', projectId)
-        if (!project) this.$router.push('/only-ferran-knows-221/error')
-
-        const id = project.id
-        const projectDoc = project.data()
-        if (!projectDoc) return
-        const images = projectDoc.images?.map((el: any) => { return {url: el} })
-        const images_preview = projectDoc.images_preview?.map((el: any) => { return {url: el} })
-        const tags = projectDoc.tags && projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
-        //@ts-ignore
-        this.project = { ...projectDoc, images, images_preview, tags, id }
+        try {
+            const section = this.$route.path.split('/only-ferran-knows-221/')[1]?.split('/')[0]
+            if (!section) this.$router.push('/only-ferran-knows-221/error')
+            this.section = section
+    
+            const projectId = this.$route.params.slug
+            const project = await firebase.firestore().collection(this.section).doc(projectId).get()//.where(firebase.firestore.FieldPath.documentId(), '==', projectId)
+            if (!project) this.$router.push('/only-ferran-knows-221/error')
+    
+            const id = project.id
+            const projectDoc = project.data()
+            if (!projectDoc) return
+            const images = projectDoc.images?.map((el: any) => { return {url: el} })
+            const images_preview = projectDoc.images_preview?.map((el: any) => { return {url: el} })
+            const tags = projectDoc.tags && projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
+            //@ts-ignore
+            this.project = { ...projectDoc, images, images_preview, tags, id }
+        } catch(error) {
+            this.$store.dispatch('feedback', ErrorTypes.ERROR)
+        }
     },
     methods: {
         async updateProject(event: any) {
             try {
+                this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 this.isLoading = true
                 // Deveria so passar os campos que fram atualizados pero bueno!
                 const preProcessedProject = {
@@ -132,10 +138,11 @@ export default Vue.extend({
                 const images_preview = await this.uploadImages(event.images_preview)
                 const images = await this.uploadImages(event.images)
                 await firebase.firestore().collection(this.section).doc(this.project.id).update({...preProcessedProject, images_preview, images})
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
                 this.isLoading = false
             } catch(error) {
                 this.isLoading = false
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         async uploadImages(array: any[]) {

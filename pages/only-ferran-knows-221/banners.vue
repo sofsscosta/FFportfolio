@@ -20,6 +20,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 const db = firebase.firestore()
 
@@ -74,8 +75,9 @@ export default Vue.extend({
                         })
                         currentSection.currentImage = url
                 })
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
             } catch(error) {
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         }
     }

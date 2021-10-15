@@ -26,6 +26,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import firebase from "firebase/app";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -43,32 +44,38 @@ export default Vue.extend({
         }
     },
     async created() {
-        // Path format: /only-ferran-knows-221/reviews/edit/:collection/:projectId
-        
-        // this.collection = this.$route.params.slug
-        const slug = this.$route.path.split('/only-ferran-knows-221/reviews/create')[1]
-        if (!slug) return
-        this.review.link = slug
-
-        const collection = slug?.split('/')[1]
-        this.collection = collection
-
-        const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', slug).get()
-        const project = unprocessedProject.docs[0].data()
-        this.title = project.title
-        this.originalProjectId = unprocessedProject.docs[0].id
+        try {
+            // Path format: /only-ferran-knows-221/reviews/edit/:collection/:projectId
+            
+            // this.collection = this.$route.params.slug
+            const slug = this.$route.path.split('/only-ferran-knows-221/reviews/create')[1]
+            if (!slug) return
+            this.review.link = slug
+    
+            const collection = slug?.split('/')[1]
+            this.collection = collection
+    
+            const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', slug).get()
+            const project = unprocessedProject.docs[0].data()
+            this.title = project.title
+            this.originalProjectId = unprocessedProject.docs[0].id
+        } catch(error) {
+            this.$store.dispatch('feedback', ErrorTypes.ERROR)
+        }
     },
     methods: {
         async addReview(event: any) {
             try {
+                this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 this.isLoading = true
                 const addedReview = await firebase.firestore().collection('reviews').add(event)
                 await this.$store.dispatch('fetchReviews')
                 this.isLoading = false
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
                 this.$router.push(`/only-ferran-knows-221/reviews/edit/${addedReview.id}`)
             } catch(error) {
                 this.isLoading = false
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
     }

@@ -5,9 +5,6 @@ const mutations: MutationTree<RootState> = {
     SET_LOGGED_STATE(state, isLogged: false) {
         state.isLogged = isLogged
     },
-    SET_USER_ERROR(state, error: string) {
-        state.error.user = error
-    },
     SET_SECTIONS(state, banners: any[]) {
         state.banners = banners
     },

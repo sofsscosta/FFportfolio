@@ -1,8 +1,5 @@
 export default () => ({
     isLogged: false,
-    error: {
-        user: ''
-    },
     banners: [],
     events: {
         projects: [],

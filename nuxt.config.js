@@ -49,6 +49,7 @@ export default {
   modules: [
     '@nuxtjs/robots',
     '@nuxtjs/dotenv',
+    '@nuxtjs/toast',
     [
       '@nuxtjs/firebase',
       {
@@ -87,7 +88,7 @@ export default {
       config.node = {
           fs: 'empty'
       }
-  }
+    }
   },
   storage: true,
   pageTransition: {
@@ -117,6 +118,9 @@ export default {
       },
     },
   },
+  toast: {
+    position: 'top-center'
+}
   // TO SEE ON MOBILE LIVE
   // server: {     
   //   port: 8000, // default: 3000     

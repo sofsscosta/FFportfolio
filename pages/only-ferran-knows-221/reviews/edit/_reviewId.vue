@@ -19,6 +19,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import firebase from "firebase/app";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -37,37 +38,43 @@ export default Vue.extend({
         }
     },
     async created() {
-        // Path format: /only-ferran-knows-221/reviews/edit/:reviewId
-        const id = this.$route.path.split('/only-ferran-knows-221/reviews/edit/')[1]
-        if (!id) this.$router.push('/only-ferran-knows-221/error')
-        this.review.id = id
-
-        const unprocessedReview = await firebase.firestore().collection('reviews').doc(id).get()
-        const review = unprocessedReview.data()
-        if (!review) this.$router.push('/only-ferran-knows-221/error')
-        //@ts-ignore
-        this.review = {...review, id: this.review.id}
-
-        if (!this.review.link) return
-
-        const collection = this.review.link.split('/')[1]
-
-        const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', this.review.link).get()
-        const project = unprocessedProject.docs[0].data()
-        this.title = project.title
-
-        this.originalProjectId = unprocessedProject.docs[0].id
+        try {
+            // Path format: /only-ferran-knows-221/reviews/edit/:reviewId
+            const id = this.$route.path.split('/only-ferran-knows-221/reviews/edit/')[1]
+            if (!id) this.$router.push('/only-ferran-knows-221/error')
+            this.review.id = id
+    
+            const unprocessedReview = await firebase.firestore().collection('reviews').doc(id).get()
+            const review = unprocessedReview.data()
+            if (!review) this.$router.push('/only-ferran-knows-221/error')
+            //@ts-ignore
+            this.review = {...review, id: this.review.id}
+    
+            if (!this.review.link) return
+    
+            const collection = this.review.link.split('/')[1]
+    
+            const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', this.review.link).get()
+            const project = unprocessedProject.docs[0].data()
+            this.title = project.title
+    
+            this.originalProjectId = unprocessedProject.docs[0].id
+        } catch(error) {
+            this.$store.dispatch('feedback', ErrorTypes.ERROR)
+        }
     },
     methods: {
         async editReview(event: any) {
             try {
+                this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 this.isLoading = true
                 await firebase.firestore().collection('reviews').doc(this.review.id).update(event)
                 await this.$store.dispatch('fetchReviews')
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
                 this.isLoading = false
             } catch(error) {
                 this.isLoading = false
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
     }

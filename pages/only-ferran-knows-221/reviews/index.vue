@@ -43,6 +43,7 @@
 import Vue from 'vue'
 import firebase from "firebase/app";
 import {truncate} from '~/utils'
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -70,24 +71,29 @@ export default Vue.extend({
                 await this.$store.dispatch('fetchReviews')
                 this.reviews = this.$store.state.reviews
                 this.addReviewProject()
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
             } catch(error) {
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         truncate,
         async addReviewProject() {
-            this.reviews = await Promise.all(this.$store.state.reviews.map(async (review: any) => {
-                if (!review.link) return review
-                const collection = review.link.split('/')[1]
-
-                const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', review.link).get()
-                const project = unprocessedProject.docs[0].data()
-                if(!project) return review
-                if(!unprocessedProject.docs[0].id) return review
-                const projectInfo = { slug: `/${collection}/${unprocessedProject.docs[0].id}`, title: project.title }
-                review.project = projectInfo
-                return review
-            }))
+            try {
+                this.reviews = await Promise.all(this.$store.state.reviews.map(async (review: any) => {
+                    if (!review.link) return review
+                    const collection = review.link.split('/')[1]
+    
+                    const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', review.link).get()
+                    const project = unprocessedProject.docs[0].data()
+                    if(!project) return review
+                    if(!unprocessedProject.docs[0].id) return review
+                    const projectInfo = { slug: `/${collection}/${unprocessedProject.docs[0].id}`, title: project.title }
+                    review.project = projectInfo
+                    return review
+                }))
+            } catch(error) {
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
+            }
         }
     }
 })

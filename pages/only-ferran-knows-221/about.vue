@@ -25,6 +25,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -56,13 +57,15 @@ export default Vue.extend({
     methods: {
         async updateAbout(event: any) {
             try {
+                this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 this.isLoading = true
                 const processedAbout = { contacts: event.contacts[0], description: event.description }
                 await firebase.firestore().collection('about').doc('RCNULCtvbhhssWzzZkTI').update(processedAbout)
                 this.isLoading = false
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
             } catch(error) {
                 this.isLoading = false
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         onFileSelected(event:any){

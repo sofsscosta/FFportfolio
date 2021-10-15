@@ -44,6 +44,7 @@
 import Vue from 'vue'
 import firebase from "firebase/app";
 import { Project } from '~/types';
+import { ErrorTypes } from '~/utils/errorMessages'
 
 export default Vue.extend({
     layout: 'admin',
@@ -71,13 +72,15 @@ export default Vue.extend({
     methods: {
         async handleDelete(title: string, id: string) {
             try {
+                this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 const isConfirmed = window.confirm(`Are you sure you want to delete ${title}?`)
                 if(!isConfirmed) return;
                 await firebase.firestore().collection(this.section).doc(id).delete()
                 await this.$store.dispatch('getSectionItems', this.section)
                 this.projects = this.$store.state[this.section].projects
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
             } catch(error) {
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         changeProjectOrder(upOrDown: boolean, projectId: string) {

@@ -45,6 +45,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -66,26 +67,31 @@ export default Vue.extend({
         }
     },
     async created() {
-        const section = this.$route.path.split('/only-ferran-knows-221/')[1]?.split('/')[0]
-        if (!section) this.$router.push('/only-ferran-knows-221/error')
-        this.section = section
-
-        const projectId = this.$route.params.slug
-        const project = await firebase.firestore().collection(this.section).doc(projectId).get()//.where(firebase.firestore.FieldPath.documentId(), '==', projectId)
-        if (!project) this.$router.push('/only-ferran-knows-221/error')
-
-        const id = project.id
-        const projectDoc = project.data()
-        if (!projectDoc) return
-        const image_preview = { url: projectDoc.image_preview }
-        const tags = projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
-        //@ts-ignore
-        this.project = { ...projectDoc, tags, image_preview, id }
+        try {
+            const section = this.$route.path.split('/only-ferran-knows-221/')[1]?.split('/')[0]
+            if (!section) this.$router.push('/only-ferran-knows-221/error')
+            this.section = section
+    
+            const projectId = this.$route.params.slug
+            const project = await firebase.firestore().collection(this.section).doc(projectId).get()//.where(firebase.firestore.FieldPath.documentId(), '==', projectId)
+            if (!project) this.$router.push('/only-ferran-knows-221/error')
+    
+            const id = project.id
+            const projectDoc = project.data()
+            if (!projectDoc) return
+            const image_preview = { url: projectDoc.image_preview }
+            const tags = projectDoc.tags.length && projectDoc.tags.map((el: any) => { return {tag: el} })
+            //@ts-ignore
+            this.project = { ...projectDoc, tags, image_preview, id }
+        } catch(error) {
+            this.$store.dispatch('feedback', ErrorTypes.ERROR)
+        }
     },
     methods: {
         async updateProject(event: any) {
             try {
                 this.isLoading = true
+                this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 const preProcessedProject = {
                     date: event.date,
                     description: event.description,
@@ -97,10 +103,11 @@ export default Vue.extend({
                     image_preview: event.image_preview.url || event.image_preview[0]?.url
                 }
                 await firebase.firestore().collection(this.section).doc(this.project.id).update(preProcessedProject)
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
                 this.isLoading = false
             } catch(error) {
                 this.isLoading = false
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         async uploadImage(file: any): Promise<any> {
@@ -125,7 +132,7 @@ export default Vue.extend({
                 })
                 return { url }
             } catch(error) {
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         processTags(tags: {tag: string}[]) {

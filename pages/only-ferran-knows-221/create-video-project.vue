@@ -42,6 +42,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
+import { ErrorTypes } from '~/utils/errorMessages';
 
 export default Vue.extend({
     layout: 'admin',
@@ -76,10 +77,11 @@ export default Vue.extend({
                 }
                 const newProject = await firebase.firestore().collection('video').add(preProcesedProject)   
                 this.isLoading = false
+                this.$store.dispatch('feedback', ErrorTypes.SUCCESS)
                 this.$router.push(`/only-ferran-knows-221/video/${newProject.id}`)
             } catch(error) {
                 this.isLoading = false
-                console.log(error)
+                this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
         async uploadImage(file: any): Promise<any> {
