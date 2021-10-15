@@ -5,15 +5,14 @@
                 <p class="h-full items-center flex justify-center">{{ separator.name }}</p>
                 <div class="h-px bg-gray-350 mx-2"/>
             </nuxt-link>
-            <nuxt-link @click.native="$store.dispatch('logout')" class="text-white text-center h-14 hover:bg-gray-350 rounded" to="process.env.ADMIN_PATH">
+            <button @click.prevent="$store.dispatch('logout')" class="text-white text-center h-14 hover:bg-gray-350 rounded">
                 <p class="h-full items-center flex justify-center">Logout</p>
-            </nuxt-link>
+            </button>
         </ul>
     </section>
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import firebase from "firebase/app";
 import "firebase/auth";
 export default Vue.extend({
     data() {
@@ -50,10 +49,5 @@ export default Vue.extend({
             ]
         }
     },
-    methods: {
-        // async handleLogout() {
-        //     this.$store.dispatch('logout')
-        // }
-    }
 })
 </script>
