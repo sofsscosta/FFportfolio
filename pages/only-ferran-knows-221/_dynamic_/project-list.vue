@@ -7,8 +7,8 @@
             Here you can create, edit or delete projects for the {{ section }} section. Click on each item to see its details.
         </h2>
         <client-only>
-        <ul class="mb-20 w-full px-10" :key="projects && projects.length" v-if="projects.length">
-            <div class="flex flex-row justify-between text-lg">
+        <ul class="grid mb-20 w-full px-10" :key="projects && projects.length" v-if="projects.length">
+            <div class="grid grid-class text-lg">
                 <p>Title</p>
                 <p>Date</p>
                 <p>Image Preview</p>
@@ -16,19 +16,21 @@
             </div>
             <hr>
             <li v-for="(project, index) in projects" :key="index">
-                <div class="flex flex-row justify-between items-center">
+                <div class="grid grid-class items-center">
                     <nuxt-link :to="`/only-ferran-knows-221/${section}/${project.id}`">
                         <p>{{project.title}}</p>
                     </nuxt-link>
                     <p>{{project.date}}</p>
                     <nuxt-link :to="`/only-ferran-knows-221/${section}/${project.id}`">
-                        <img v-if="project.image_preview || (project.images_preview && project.images_preview.length)" :src="project.image_preview || project.images_preview[0]" width="200" alt="" class="my-2"/>
+                        <img v-if="project.image_preview || (project.images_preview && project.images_preview.length)" :src="project.image_preview || project.images_preview[0]" width="auto" alt="" class="my-2 h-32"/>
                     </nuxt-link>
                     <div>
-                        <button @click.prevent="changeProjectOrder('up', project.id)"></button>
-                        <button @click.prevent="changeProjectOrder('down', project.id)"></button>
-                        <nuxt-link :to="`/only-ferran-knows-221/reviews/create${project.slug}`" >Add Review</nuxt-link>
-                        <button @click.self="handleDelete(project.title, project.id)">Delete</button>
+                        <!-- <button @click.prevent="changeProjectOrder('up', project.id)"></button>
+                        <button @click.prevent="changeProjectOrder('down', project.id)"></button> -->
+                        <div class="flex flex-col items-start">
+                            <nuxt-link :to="`/only-ferran-knows-221/reviews/create${project.slug}`" class="bg-gray-100 rounded-full px-2 py-1 w-min min-w-max mb-1" >Add Review</nuxt-link>
+                            <button @click.self="handleDelete(project.title, project.id)" class="ml-2">Delete</button>
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -45,6 +47,7 @@ import Vue from 'vue'
 import firebase from "firebase/app";
 import { Project } from '~/types';
 import { ErrorTypes } from '~/utils/errorMessages'
+import { truncate } from '~/utils/index'
 
 export default Vue.extend({
     layout: 'admin',
@@ -85,7 +88,14 @@ export default Vue.extend({
         },
         changeProjectOrder(upOrDown: boolean, projectId: string) {
             // await firebase.firestore().collection(this.section)
-        }
+        },
+        truncate
     }
 })
 </script>
+<style scoped>
+.grid-class {
+    grid-template-columns: 1fr 0.5fr 1fr 0.5fr;
+    column-gap: 2rem;
+}
+</style>
