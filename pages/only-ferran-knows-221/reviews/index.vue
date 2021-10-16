@@ -5,8 +5,8 @@
             Here you can create, edit or delete reviews. Click on each item to see its details.
         </h2>
         <client-only>
-        <ul class="mb-20 w-full px-10" :key="$store.state.reviews && $store.state.reviews.length" v-if="$store.state.reviews.length">
-            <div class="flex flex-row justify-between text-lg">
+        <ul class="grid mb-20 w-full px-10" :key="$store.state.reviews && $store.state.reviews.length" v-if="$store.state.reviews.length">
+            <div class="grid grid-class text-lg">
                 <p>Author</p>
                 <p>Text</p>
                 <p>See related project</p>
@@ -15,7 +15,7 @@
             <hr>
             <li v-for="(review, index) in reviews" :key="index">
                 <client-only>
-                    <div class="flex flex-row justify-between items-center py-5" v-if="review">
+                    <div class="grid grid-class items-center py-5" v-if="review">
                         <nuxt-link v-if="review && review.id" :to="`/only-ferran-knows-221/reviews/edit/${review.id}`">
                             <p>{{review.author}}</p>
                         </nuxt-link>
@@ -98,3 +98,9 @@ export default Vue.extend({
     }
 })
 </script>
+<style scoped>
+.grid-class {
+    grid-template-columns: 0.5fr 1fr 1fr 0.3fr;
+    column-gap: 2rem;
+}
+</style>
