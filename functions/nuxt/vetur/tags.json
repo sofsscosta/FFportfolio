@@ -1,0 +1,44 @@
+{
+  "AdminSidebar": {
+    "description": "Auto imported from components/Admin/Sidebar.vue"
+  },
+  "Contact": {
+    "description": "Auto imported from components/Contact/Contact.vue"
+  },
+  "Banner": {
+    "description": "Auto imported from components/Banner/Banner.vue"
+  },
+  "Footer": {
+    "description": "Auto imported from components/Footer/Footer.vue"
+  },
+  "Navbar": {
+    "description": "Auto imported from components/Navbar/Navbar.vue"
+  },
+  "NavbarDesktop": {
+    "description": "Auto imported from components/Navbar/NavbarDesktop.vue"
+  },
+  "NavbarMobile": {
+    "description": "Auto imported from components/Navbar/NavbarMobile.vue"
+  },
+  "ProjectTag": {
+    "description": "Auto imported from components/Project/Tag.vue"
+  },
+  "ReviewsReviewItem": {
+    "description": "Auto imported from components/Reviews/ReviewItem.vue"
+  },
+  "Slider": {
+    "description": "Auto imported from components/Slider/Slider.vue"
+  },
+  "ProjectPhotographyGrid": {
+    "description": "Auto imported from components/Project/Photography/Grid.vue"
+  },
+  "ProjectPhotographyModal": {
+    "description": "Auto imported from components/Project/Photography/Modal.vue"
+  },
+  "ProjectItem": {
+    "description": "Auto imported from components/Project/Photography/ProjectItem.vue"
+  },
+  "ProjectVideoProject": {
+    "description": "Auto imported from components/Project/Video/VideoProject.vue"
+  }
+}

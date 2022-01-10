@@ -1,0 +1,182 @@
+[
+  {
+    "name": "about",
+    "path": "/about",
+    "component": "/Users/so/FFportfolio/pages/about.vue",
+    "chunkName": "pages/about"
+  },
+  {
+    "name": "events",
+    "path": "/events",
+    "component": "/Users/so/FFportfolio/pages/events/index.vue",
+    "chunkName": "pages/events/index"
+  },
+  {
+    "name": "fashion",
+    "path": "/fashion",
+    "component": "/Users/so/FFportfolio/pages/fashion/index.vue",
+    "chunkName": "pages/fashion/index"
+  },
+  {
+    "name": "only-ferran-knows-221",
+    "path": "/only-ferran-knows-221",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/index"
+  },
+  {
+    "name": "product",
+    "path": "/product",
+    "component": "/Users/so/FFportfolio/pages/product/index.vue",
+    "chunkName": "pages/product/index"
+  },
+  {
+    "name": "video",
+    "path": "/video",
+    "component": "/Users/so/FFportfolio/pages/video/index.vue",
+    "chunkName": "pages/video/index"
+  },
+  {
+    "name": "only-ferran-knows-221-about",
+    "path": "/only-ferran-knows-221/about",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/about.vue",
+    "chunkName": "pages/only-ferran-knows-221/about"
+  },
+  {
+    "name": "only-ferran-knows-221-banners",
+    "path": "/only-ferran-knows-221/banners",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/banners.vue",
+    "chunkName": "pages/only-ferran-knows-221/banners"
+  },
+  {
+    "name": "only-ferran-knows-221-create-project",
+    "path": "/only-ferran-knows-221/create-project",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/create-project.vue",
+    "chunkName": "pages/only-ferran-knows-221/create-project"
+  },
+  {
+    "name": "only-ferran-knows-221-create-video-project",
+    "path": "/only-ferran-knows-221/create-video-project",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/create-video-project.vue",
+    "chunkName": "pages/only-ferran-knows-221/create-video-project"
+  },
+  {
+    "name": "only-ferran-knows-221-events",
+    "path": "/only-ferran-knows-221/events",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/events/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/events/index"
+  },
+  {
+    "name": "only-ferran-knows-221-fashion",
+    "path": "/only-ferran-knows-221/fashion",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/fashion/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/fashion/index"
+  },
+  {
+    "name": "only-ferran-knows-221-login",
+    "path": "/only-ferran-knows-221/login",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/login.vue",
+    "chunkName": "pages/only-ferran-knows-221/login"
+  },
+  {
+    "name": "only-ferran-knows-221-product",
+    "path": "/only-ferran-knows-221/product",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/product/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/product/index"
+  },
+  {
+    "name": "only-ferran-knows-221-reviews",
+    "path": "/only-ferran-knows-221/reviews",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/reviews/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/reviews/index"
+  },
+  {
+    "name": "only-ferran-knows-221-video",
+    "path": "/only-ferran-knows-221/video",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/video/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/video/index"
+  },
+  {
+    "name": "only-ferran-knows-221-reviews-create",
+    "path": "/only-ferran-knows-221/reviews/create",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/reviews/create/index.vue",
+    "chunkName": "pages/only-ferran-knows-221/reviews/create/index"
+  },
+  {
+    "name": "only-ferran-knows-221-reviews-edit-reviewId",
+    "path": "/only-ferran-knows-221/reviews/edit/:reviewId?",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/reviews/edit/_reviewId.vue",
+    "chunkName": "pages/only-ferran-knows-221/reviews/edit/_reviewId"
+  },
+  {
+    "name": "only-ferran-knows-221-reviews-create-slug-projectId",
+    "path": "/only-ferran-knows-221/reviews/create/:slug?/:projectId",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/reviews/create/_slug/_projectId.vue",
+    "chunkName": "pages/only-ferran-knows-221/reviews/create/_slug/_projectId"
+  },
+  {
+    "name": "only-ferran-knows-221-events-slug",
+    "path": "/only-ferran-knows-221/events/:slug?",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/events/_slug.vue",
+    "chunkName": "pages/only-ferran-knows-221/events/_slug"
+  },
+  {
+    "name": "only-ferran-knows-221-fashion-slug",
+    "path": "/only-ferran-knows-221/fashion/:slug?",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/fashion/_slug.vue",
+    "chunkName": "pages/only-ferran-knows-221/fashion/_slug"
+  },
+  {
+    "name": "only-ferran-knows-221-product-slug",
+    "path": "/only-ferran-knows-221/product/:slug?",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/product/_slug.vue",
+    "chunkName": "pages/only-ferran-knows-221/product/_slug"
+  },
+  {
+    "name": "only-ferran-knows-221-video-slug",
+    "path": "/only-ferran-knows-221/video/:slug?",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/video/_slug.vue",
+    "chunkName": "pages/only-ferran-knows-221/video/_slug"
+  },
+  {
+    "name": "events-slug",
+    "path": "/events/:slug",
+    "component": "/Users/so/FFportfolio/pages/events/_slug.vue",
+    "chunkName": "pages/events/_slug"
+  },
+  {
+    "name": "fashion-slug",
+    "path": "/fashion/:slug",
+    "component": "/Users/so/FFportfolio/pages/fashion/_slug.vue",
+    "chunkName": "pages/fashion/_slug"
+  },
+  {
+    "name": "product-slug",
+    "path": "/product/:slug",
+    "component": "/Users/so/FFportfolio/pages/product/_slug.vue",
+    "chunkName": "pages/product/_slug"
+  },
+  {
+    "name": "video-slug",
+    "path": "/video/:slug",
+    "component": "/Users/so/FFportfolio/pages/video/_slug.vue",
+    "chunkName": "pages/video/_slug"
+  },
+  {
+    "name": "only-ferran-knows-221-dynamic_-project-list",
+    "path": "/only-ferran-knows-221/:dynamic_?/project-list",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/_dynamic_/project-list.vue",
+    "chunkName": "pages/only-ferran-knows-221/_dynamic_/project-list"
+  },
+  {
+    "name": "only-ferran-knows-221-dynamic_-update-project",
+    "path": "/only-ferran-knows-221/:dynamic_?/update-project",
+    "component": "/Users/so/FFportfolio/pages/only-ferran-knows-221/_dynamic_/update-project.vue",
+    "chunkName": "pages/only-ferran-knows-221/_dynamic_/update-project"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/so/FFportfolio/pages/index.vue",
+    "chunkName": "pages/index"
+  }
+]
