@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-20 md:mb-28 overflow-x-hidden" >
+  <div class="mb-20 md:mb-28 overflow-x-hidden max-w-5xl mx-auto" >
     <nuxt-link :to="slug" class="w-full h-full">
       <header class="flex flex-wrap flex-col md:flex-row justify-between font-thin">
         <div class="mb-2 md:mb-0">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </header>
-      <section class="flex flex-row mt-5 md:mt-10 justify-between">
+      <section class="flex flex-row mt-5 md:mt-10" :class="images_preview.length < 3 ? 'justify-start' : 'justify-between'">
         <img class="hidden md:block w-1/3 mr-2 object-cover" v-for="(image, index) in images_preview" :src="image" :key="index">
         <Slider class="md:hidden" :slides="images_preview"/>
       </section>
