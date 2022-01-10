@@ -1,22 +1,20 @@
-export default async function({ route, redirect, store }) {
-    if (route.path.match(/admin/gi)) {
-      // if (localStorage.getItem('authToken'))
-      // console.log()
-      // console.log(localStorage.getItem('authToken'))
-      // const isLogged = await isLogged()
-      if (!store.state.isLogged) {
-        redirect('/admin/login');
+import { getUserFromCookie } from '~/utils/firebaseUtils'
+
+export default async function({ app, route, redirect, store, req }) {
+  // CHECK HOW TO REGEX WITH VARIABLE
+  if (route.path.match(/only-ferran-knows-221/gi)) {
+    if (process.server) {
+      const user = getUserFromCookie(req)
+      if (!user) {
+        redirect('/only-ferran-knows-221/login')
+      }
+    } 
+    else {
+      var user = store.state.isLogged
+      if (!user) {
+        redirect('/only-ferran-knows-221/login')
       }
     }
-  
-    // switch (route.path) {
-    //   case '/profile':
-    //     if (!store.state.account.loggedIn) {
-    //       redirect('/login');
-    //     }
-    //     break;
-    //   default:
-    //     break;
-    // }
   }
+}
   

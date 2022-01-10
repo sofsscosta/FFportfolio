@@ -1,11 +1,15 @@
 <template>
   <div>
     <Navbar />
-    <nuxt />
+    <nuxt :style="{paddingTop: headerHeight}" class="min-h-screen"/>
     <Footer />
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+import { headerHeight } from '~/utils'
+
+export default Vue.extend({
+  data() { return { headerHeight } },
+});
 </script>

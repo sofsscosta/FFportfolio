@@ -1,0 +1,41 @@
+<template>
+  <div>
+    <Banner :image-source="bannerImage" section="events"/>
+    <div class="m-4 mt-20 md:mt-28 md:m-28">
+      <ProjectItem v-for="project in projects" :project="project" :key="project.id"/>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import Banner from '~/components/Banner/Banner.vue'
+import ProjectItem from '~/components/Project/Photography/ProjectItem.vue'
+import { Project } from "~/types";
+
+export default Vue.extend({
+  components: {
+    Banner,
+    ProjectItem,
+  },
+  data() {
+    const projects: Project[] = []
+    return {
+      bannerImage: "",
+      projects
+    };
+  },
+  async fetch({store}) {
+    try {
+      !store.getters['getBanner']('events').bannerUrl && await store.dispatch('getBanner', 'events')
+      !store.state.events.projects.length && await store.dispatch('getSectionItems', 'events')
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  created() {
+    this.bannerImage = this.$store.getters['getBanner']('events').bannerUrl
+    this.projects = this.$store.state.events.projects
+  }
+});
+</script>
