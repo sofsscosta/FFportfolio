@@ -3,10 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "start": "cross-env NODE_ENV=production node server/index.js",
     "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+
+    "build:firebase": "npm run clean && npm run build && npm run copy && cd functions && npm run",
+
+    "clean": "npm run clean:public && npm run clean:functions && npm run clean:static",
+    "clean:functions": "rimraf \"functions/node_modules\" && rimraf \"functions/.nuxt\"",
+    "clean:public": "rimraf \"public/**/*.*!(md)\" && rimraf \"public/_nuxt\"",
+    "clean:static": "rimraf \"static/sw.js\"",
+
+    "copy": "npm run copy:nuxt && npm run copy:static",
+    "copy:nuxt": "mkdir public/_nuxt && cp -r functions/.nuxt/dist/* public/_nuxt",
+    "copy:static": "cp -r static/* public",
+
+    "start:firebase": "firebase serve --only functions,hosting",
+
+    "deploy": "firebase deploy --only functions,hosting"
   },
   "dependencies": {
     "@nuxtjs/dotenv": "^1.4.1",

@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 export default {
+  buildDir: 'functions/.nuxt',
   dir: {
     store: 'store'
   },
@@ -47,6 +48,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extractCSS: true,
     babel:{
       plugins: [
         ["@babel/plugin-proposal-private-property-in-object", { "loose": true }]      
