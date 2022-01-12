@@ -1,13 +1,14 @@
 require('dotenv').config()
 
-export default {
-  // buildDir: 'functions/.nuxt',
+module.exports = {
+  srcDir: 'src',
+  buildDir: 'functions/.nuxt',
   dir: {
     store: 'store'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Ferran Pamiès Flack',
+    title: 'ffportfolio-99d42',
     htmlAttrs: {
       lang: 'en'
     },
@@ -80,7 +81,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extractCSS: true,
     babel:{
       plugins: [
         ["@babel/plugin-proposal-private-property-in-object", { "loose": true }]      
@@ -90,7 +90,8 @@ export default {
       config.node = {
           fs: 'empty'
       }
-    }
+    },
+    extractCSS: true,
   },
   storage: true,
   pageTransition: {
