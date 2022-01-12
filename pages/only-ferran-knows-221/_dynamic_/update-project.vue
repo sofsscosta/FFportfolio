@@ -79,8 +79,10 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
 import { ErrorTypes } from '~/utils/errorMessages';
+import crudActions from '~/mixins/crud'
 
 export default Vue.extend({
+    mixins:[crudActions],
     layout: 'admin',
     data() {
         return {
@@ -126,7 +128,7 @@ export default Vue.extend({
             try {
                 this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 this.isLoading = true
-                // Deveria so passar os campos que fram atualizados pero bueno!
+                // Deveria so passar os campos que foram atualizados pero bueno!
                 const preProcessedProject = {
                     date: event.date,
                     description: event.description,
@@ -145,44 +147,6 @@ export default Vue.extend({
                 this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
-        async uploadImages(array: any[]) {
-            try {
-                const processedImages: string[] = []
-                await Promise.all(array.map((element: any) => { 
-                    return new Promise((resolve, reject): void => {
-                        if (element.image) {
-                            const image = element.image?.files[0]?.file
-                            if(!image) return
-                            //@ts-ignore
-                            let reference = firebase.storage().ref(`/images/${this.section}/${this.project.title}/${image.name}`);
-                            const task = reference.put(image);
-                            task.on('state_changed', 
-                                null,
-                                null,
-                                async () => {
-                                    const url = await task.snapshot.ref.getDownloadURL()
-                                    processedImages.push(url)
-                                    resolve(url)
-                            })
-                        }
-                        else if (element.url) {
-                            processedImages.push(element.url)
-                            resolve(element.url)
-                        }
-                        else resolve(true)
-                    })
-                }))
-                return processedImages
-            } catch(error) {
-                console.log(error)
-            }
-        },
-        processTags(tags: {tag: string}[]) {
-            return tags.length && tags.filter(tag => tag.tag).map(el => el.tag)
-        },
-        generateSlug(title:string) {
-            return `/${this.section}/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
-        }
     }
 })
 </script>

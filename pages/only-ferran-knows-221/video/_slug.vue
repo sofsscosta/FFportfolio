@@ -136,7 +136,7 @@ export default Vue.extend({
             }
         },
         processTags(tags: {tag: string}[]) {
-            return tags.filter(tag => tag.tag).map(el => el.tag)
+            return tags.length && tags.filter(tag => tag.tag).map(el => el.tag)
         },
         generateSlug(title:string) {
             return `/${this.section}/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`

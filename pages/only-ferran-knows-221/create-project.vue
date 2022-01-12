@@ -64,9 +64,11 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
 import { ErrorTypes } from '~/utils/errorMessages';
+import cruActions from '~/mixins/crud'
 
 export default Vue.extend({
     layout: 'admin',
+    mixins: [cruActions],
     data() {
         return {
             project : {
@@ -95,7 +97,7 @@ export default Vue.extend({
                 const preProcesedProject = {
                     date: event.date,
                     description: event.description,
-                    slug: this.generateSlug(event.title),
+                    slug: this.generateSlug(this.section, event.title),
                     subtitle: event.subtitle,
                     title: event.title,
                     tags: this.processTags(event.tags),
@@ -112,37 +114,6 @@ export default Vue.extend({
                 this.$store.dispatch('feedback', ErrorTypes.ERROR)
             }
         },
-        async uploadImages(array: any[]) {
-            try {
-                const processedImages: string[] = []
-                await Promise.all(array.map((element: any) => { 
-                    return new Promise((resolve, reject): void => {
-                        const image = element.image?.files[0]?.file
-                        if(!image) return
-                        //@ts-ignore
-                        let reference = firebase.storage().ref(`/images/${this.section}/${this.project.title}/${image.name}`);
-                        const task = reference.put(image);
-                        task.on('state_changed', 
-                            null,
-                            null,
-                            async () => {
-                                const url = await task.snapshot.ref.getDownloadURL()
-                                processedImages.push(url)
-                                resolve(url)
-                        })
-                    })
-                }))
-                return processedImages
-            } catch(error) {
-                console.log(error)
-            }
-        },
-        processTags(tags: {tag: string}[]) {
-            return tags.filter(tag => tag.tag).map(el => el.tag)
-        },
-        generateSlug(title:string) {
-            return `/${this.section}/${title.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase().split(' ').join('-')}`
-        }
     }
 })
 </script>
