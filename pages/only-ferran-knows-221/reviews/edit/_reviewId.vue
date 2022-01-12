@@ -53,6 +53,7 @@ export default Vue.extend({
             if (!this.review.link) return
     
             const collection = this.review.link.split('/')[1]
+            this.collection = collection
     
             const unprocessedProject = await firebase.firestore().collection(collection).where('slug', '==', this.review.link).get()
             const project = unprocessedProject.docs[0].data()

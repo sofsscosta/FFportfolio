@@ -66,9 +66,8 @@ import "firebase/storage";
 import { ErrorTypes } from '~/utils/errorMessages';
 import cruActions from '~/mixins/crud'
 
-export default Vue.extend({
+export default cruActions.extend({
     layout: 'admin',
-    mixins: [cruActions],
     data() {
         return {
             project : {

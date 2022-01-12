@@ -1,8 +1,9 @@
+import Vue from 'vue'
 import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
 
-export default ({
+export default Vue.extend ({
     methods: {
         async uploadImages(array: any[]) {
             try {
@@ -11,7 +12,6 @@ export default ({
                     return new Promise((resolve, reject): void => {
                         if (element.image) {
                             const file = element.image?.files[0]
-                            console.log('file', file)
                             if(!file) return
                             const image = file?.file
                             const uuid = file?.uuid
