@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 export default {
-  // buildDir: 'functions/.nuxt',
+  buildDir: process.env.NODE_ENV === 'production' ? 'functions/.nuxt' : '.nuxt',
   dir: {
     store: 'store'
   },
