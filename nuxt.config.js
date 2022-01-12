@@ -1,13 +1,13 @@
 require('dotenv').config()
 
 export default {
-  buildDir: 'functions/.nuxt',
+  // buildDir: 'functions/.nuxt',
   dir: {
     store: 'store'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ffportfolio',
+    title: 'Ferran Pamiès Flack',
     htmlAttrs: {
       lang: 'en'
     },

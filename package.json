@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-    "start": "cross-env NODE_ENV=production node server/index.js",
     "build": "nuxt build",
     "generate": "nuxt generate",
+
+    "dev": "nuxt",
+    "start": "nuxt start",
 
     "build:firebase": "npm run clean && npm run build && npm run copy && cd functions && npm run",
 

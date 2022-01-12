@@ -25,12 +25,15 @@
     },
     "types": [
       "@nuxt/types",
-      "@types/node"
+      "@types/node",
+      "@nuxt/vue-app",
     ]
   },
   "exclude": [
     "node_modules",
     ".nuxt",
-    "dist"
+    "dist",
+    "functions",
+    "public"
   ]
 }
