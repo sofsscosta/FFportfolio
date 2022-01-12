@@ -2,7 +2,7 @@
   <div class="fixed z-10 w-full">
     <div class="flex justify-between items-center px-24 bg-white " :style="{height: headerHeight}">
       <nuxt-link to="/about">
-        <img src="../../assets/man-profile-silhouette-23.png" alt="" class="h-10 w-10 fill" :style="{filter: 'opacity(30%)'}">
+        <Logo/>
       </nuxt-link>
       <div class="flex flex-row pl-20 h-full">
         <div 
@@ -59,8 +59,10 @@
 <script lang="ts">
 import Vue from "vue";
 import { headerHeight } from '~/utils'
+import Logo from '~/assets/Logo.vue'
 
 export default Vue.extend({
+    components: {Logo},
     props: {
         photography : {
             type: Object,
