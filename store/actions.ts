@@ -82,7 +82,7 @@ const actions: ActionTree<RootState, RootState> = {
             Cookies.remove('access_token')
             commit('SET_LOGGED_STATE', false)
             //@ts-ignore
-            this.$router.push(`${process.env.ADMIN_PATH}/login`)
+            this.$router.currentRoute.fullPath === `/${process.env.ADMIN_PATH}` ? this.$router.push(`${process.env.ADMIN_PATH}/login`) : this.$router.push(`login`)
             dispatch('feedback', ErrorTypes.SUCCESS)
         } catch(error) {
             dispatch('feedback', ErrorTypes.ERROR)

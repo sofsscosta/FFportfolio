@@ -78,6 +78,20 @@ export default Vue.extend({
                 this.$store.dispatch('feedback', ErrorTypes.SUBMITTING)
                 const isConfirmed = window.confirm(`Are you sure you want to delete ${title}?`)
                 if(!isConfirmed) return;
+                const snap = await firebase.firestore().collection(this.section).doc(id).get()
+                snap.data()?.images?.length && snap.data()?.images.forEach(async (image: string) => {
+                    await firebase.storage().refFromURL(image).delete()
+                })
+                snap.data()?.images_preview?.length && snap.data()?.images_preview.forEach(async (image: string) => {
+                    await firebase.storage().refFromURL(image).delete()
+                })
+                const doesProjectHaveReview = await firebase.firestore().collection('reviews').where('link', '==', snap.data()?.slug).get()
+                if (doesProjectHaveReview) {
+                    doesProjectHaveReview.forEach(async el => {
+                        await firebase.firestore().collection('reviews').doc(el.id).delete()
+                        await this.$store.dispatch('fetchReviews')
+                    })
+                }
                 await firebase.firestore().collection(this.section).doc(id).delete()
                 await this.$store.dispatch('getSectionItems', this.section)
                 this.projects = this.$store.state[this.section].projects
