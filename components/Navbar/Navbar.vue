@@ -1,73 +1,48 @@
 <template>
-  <div class="flex justify-between w-full h-20 px-24 items-center" :style="{height: headerHeight}">
-    <div
-      v-for="element in navbarElements"
-      :key="element.id"
-      class="
-        hover:bg-gray-100
-        w-full
-        h-full
-        flex
-        items-center
-        justify-center
-        flex-col
-      "
-    >
-      <nuxt-link
-        :to="element.link"
-        class="uppercase font-thin text-center px-2"
-        >{{ element.name }}</nuxt-link
-      >
-      <div
-        v-if="$route.path.includes(element.link)"
-        class="h-px w-16 text-center bg-gray-600 opacity-60"
-      ></div>
-    </div>
+  <div>
+    <NavbarMobile class="block md:hidden" :photography="photography" :video="video"/>
+    <NavbarDesktop class="hidden md:block" :photography="photography" :video="video"/>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import { headerHeight } from '~/utils'
-
-interface NavbarElement {
-  link: string;
-  name: string;
-  id: number;
-}
+import NavbarDesktop from '~/components/Navbar/NavbarDesktop.vue'
+import NavbarMobile from '~/components/Navbar/NavbarMobile.vue'
 
 export default Vue.extend({
+  components: { NavbarDesktop, NavbarMobile },
   data() {
-    const navbarElements: NavbarElement[] = [
-      {
-        link: "/about",
-        name: "About Me",
-        id: 0,
-      },
-      {
-        link: "/fashion",
-        name: "Fashion",
-        id: 1,
-      },
-      {
-        link: "/events",
-        name: "Events",
-        id: 2,
-      },
-      {
-        link: "/product",
-        name: "Product",
-        id: 3,
-      },
-      {
-        link: "/video",
-        name: "Video",
-        id: 4,
-      },
-    ];
+    const photography = {
+      name: "Photography",
+      children: [
+        {
+          link: "/fashion",
+          name: "Fashion",
+          id: 1,
+        },
+        {
+          link: "/events",
+          name: "Events",
+          id: 2,
+        },
+        {
+          link: "/product",
+          name: "Product",
+          id: 3,
+        }
+      ]
+    }
+    const video = {
+      link: "/video",
+      name: "Video",
+    }
     return {
-      navbarElements,
-      headerHeight
+      photography,
+      video,
+      headerHeight,
+      showSubMenu: false
     };
-  },
+  }
 });
 </script>

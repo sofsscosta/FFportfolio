@@ -3,26 +3,48 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
+    "generate": "nuxt generate",
+
+    "dev": "nuxt",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+
+    "build:firebase": "npm run clean && npm run build && npm run copy && cd functions && npm run",
+
+    "clean": "npm run clean:public && npm run clean:functions && npm run clean:static",
+    "clean:functions": "rimraf \"functions/node_modules\" && rimraf \"functions/.nuxt\"",
+    "clean:public": "rimraf \"public/**/*.*!(md)\" && rimraf \"public/_nuxt\"",
+    "clean:static": "rimraf \"static/sw.js\"",
+
+    "copy": "npm run copy:nuxt && npm run copy:static",
+    "copy:nuxt": "mkdir public/_nuxt && cp -r functions/.nuxt/dist/* public/_nuxt",
+    "copy:static": "cp -r static/* public",
+
+    "start:firebase": "firebase serve --only functions,hosting",
+
+    "deploy": "firebase deploy --only functions,hosting"
   },
   "dependencies": {
+    "@braid/vue-formulate": "^2.5.2",
     "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/firebase": "^7.6.1",
+    "@nuxtjs/robots": "^2.5.0",
+    "@nuxtjs/toast": "^3.3.1",
     "cookieparser": "^0.1.0",
     "core-js": "^3.15.1",
     "firebase": "^8.9.0",
-    "js-cookie": "^3.0.0",
+    "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
     "nuxt": "^2.15.7",
-    "swiper": "^6.8.1",
+    "swiper": "^6.0.2",
+    "vue-zoomer": "^0.3.9",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/tailwindcss": "^4.2.0",
-    "postcss": "^8.3.5"
+    "postcss": "^8.3.5",
+    "vue-masonry-css": "^1.0.3"
   }
 }
